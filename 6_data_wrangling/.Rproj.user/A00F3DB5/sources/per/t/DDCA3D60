@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576620294591.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2983291168",
+    "id" : "DDCA3D60",
+    "lastKnownWriteTime" : 1576699782,
+    "last_content_update" : 1576699782815,
+    "path" : "~/Documents/data_science_program/6_data_wrangling/section_3_string_proc/3_regex.R",
+    "project_path" : "section_3_string_proc/3_regex.R",
+    "properties" : {
+        "cursorPosition" : "39,0",
+        "scrollLine" : "20",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

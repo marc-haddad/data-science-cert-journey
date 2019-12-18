@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576702877379.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "397431126",
+    "id" : "8AAD1DCC",
+    "lastKnownWriteTime" : 1576706212,
+    "last_content_update" : 1576706212504,
+    "path" : "~/Documents/data_science_program/6_data_wrangling/section_3_string_proc/6_groups_with_regex.R",
+    "project_path" : "section_3_string_proc/6_groups_with_regex.R",
+    "properties" : {
+        "cursorPosition" : "78,41",
+        "scrollLine" : "59",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
