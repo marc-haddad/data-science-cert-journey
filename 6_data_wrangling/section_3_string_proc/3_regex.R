@@ -6,6 +6,7 @@ library(stringr)
 
 # regex is a way to describe specific patterns of a char of text,
 # used to determine if given str matches pattern
+# For more info on regex: https://regexone.com/
 
 # str_subset() to show entries with "cm"
 str_subset(reported_heights$height, "cm") # "165cm"  "170 cm"

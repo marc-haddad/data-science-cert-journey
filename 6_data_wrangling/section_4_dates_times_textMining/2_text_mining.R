@@ -229,7 +229,7 @@ tweet_words = campaign_tweets %>%
 # To know if certain words are more likely to appear in either device we use the ODDS RATIO
 android_iphone_or = tweet_words %>%
   count(word, source) %>%
-  spread(source, n, fill = 0) %>% # This step creates tibble for each word w/ cols for Android and iPhone
+  spread(source, n, fill = 0) %>% # This step creates tibble w/ rows for each word w/ cols for Android and iPhone
   mutate(or = (Android + 0.5) / (sum(Android) - Android + 0.5) /
            ((iPhone + 0.5) / (sum(iPhone) - iPhone + 0.5))) # 0.5s are used as a correction for any potential 0's
 
