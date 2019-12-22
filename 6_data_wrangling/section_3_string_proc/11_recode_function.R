@@ -27,11 +27,10 @@ gapminder %>%
 # recode()
 gapminder %>% filter(region=="Caribbean") %>%
   mutate(country = recode(country,
-                          `Antigua and Barbuda` = "Barbuda",
-                          `Dominican Republic` = "DR",
-                          `St. Vincent and the Grenadines` = "St. Vincent",
-                          `Trinidad and Tobago` = "Trinidad")) %>%
+                          "Antigua and Barbuda" = "Barbuda",
+                          "Dominican Republic" = "DR",
+                          "St. Vincent and the Grenadines" = "St. Vincent",
+                          "Trinidad and Tobago" = "Trinidad")) %>%
   ggplot(aes(year, life_expectancy, color = country)) +
   geom_line()
-# Note that we surround the long names with `` b/c we are nonstandard var names;
-# This way, we can change every instance of them.
+
