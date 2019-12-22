@@ -5,7 +5,7 @@ library(lubridate)
 library(tidyr)
 library(scales)
 library(dslabs)
-set.seed(1)
+
 
 data("trump_tweets")
 
@@ -18,7 +18,7 @@ data("trump_tweets")
 # get_sentiments() extracts sentiments
 
 # Here we will learn how to generate useful numerical summaries from text data
-# For more info: https://www.tidytextmining.com/
+# For more info on text mining: https://www.tidytextmining.com/
 
 head(trump_tweets)
 names(trump_tweets) # Col names
