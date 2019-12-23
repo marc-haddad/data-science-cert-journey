@@ -37,4 +37,5 @@ galton_heights %>% ggplot(aes(father, son)) +
 # }
 
 # Correlation b/w father and son heights
-galton_heights %>% summarize(cor(father, son)) # 0.5
+galton_heights %>% summarize(r = cor(father, son)) %>% pull(r) # 0.5
+
