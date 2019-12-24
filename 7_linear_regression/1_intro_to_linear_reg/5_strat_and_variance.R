@@ -56,10 +56,10 @@ galton_heights %>%
 
 # Regression line tells us 
 # for every standard dev sd(x) increase above avg mu(x),
-# y grows r (from above) standard devs sd(y) above avg mu(y)
+# y grows r (from above calc) standard devs sd(y) above avg mu(y)
 
 # In other words, the average change of y in sd(y) units
-# is equal to rho * the average change of x in sd(x)
+# is equal to rho * the average change of x in sd(x) units
 
 # The above written in the form of a standard line (y = mx + b):
   # slope m = rho * (sd(y) / sd(x))
@@ -92,5 +92,7 @@ galton_heights %>%
 # Regression line shows that the conditional means appear to follow a linear pattern;
 # Thus, the regression line gives us the prediction
 
+# Percent of variability in son's height explained by father's height = rho ^ 2
+r^2 
 
 
