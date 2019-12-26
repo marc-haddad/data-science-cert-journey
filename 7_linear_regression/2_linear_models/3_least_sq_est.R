@@ -47,7 +47,7 @@ summary(fit)
 # This means our estimates are random vars
 
 # Run a monte carlo sim that assumes the data given on sons and fathers reps the entire population.
-# Take rand samples of size 50 and compute the regression slope coesfficient for each one
+# Take rand samples of size 50 and compute the regression slope coefficient for each one
 
 B = 1000
 N = 50

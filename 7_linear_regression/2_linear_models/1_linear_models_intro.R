@@ -30,7 +30,7 @@ Teams %>%
 # will create more BBs to avoid conceding HRs
 # Result: HR hitters tend to have more BBs
 
-# Turns out its primarily HRs that cause more Rs, not BBs as it appeared
+# Turns out it's primarily HRs that cause more Rs, not BBs as it appeared
 # The misconception that BBs cause more Rs is stated as:
   # BBs are CONFOUNDED w/ HRs
 
