@@ -1,4 +1,3 @@
-
 library(tidyverse)
 library(Lahman)
 dat = Teams %>% filter(yearID %in% 1961:2001) %>% 
