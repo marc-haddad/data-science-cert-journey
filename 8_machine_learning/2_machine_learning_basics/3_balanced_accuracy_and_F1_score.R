@@ -69,3 +69,26 @@ confusionMatrix(data = y_hat, reference = test_set$sex)
 
 # Conclusion: This is my first ML algorithm; 
 # It takes height as a predictor, and predicts that those w/ heights below 66 inches are going to be female.
+
+
+
+# Addendum:
+# Having a high sens. and speci. is not always the best choice,
+# particularly when prevalence is close to either 0 or 1
+# Ex: A Dr. specializes in rare disease. Wants to develop an algorithm to predict who has the disease.
+#     An algorithm w/ high sens. means that: If patiant has disease, algorithm likely to predict correctly.
+#     When given the data by Dr., you find the Pr(Y_hat = 1) = 0.5
+# 
+# In this case, it would be better to instead focus on speci. (i.e precision is more important than sensi.)
+# Pr(Y = 1 | Y_hat = 1) is what is important.
+# 
+# Using Bayes' theorem for formula:
+# Pr(Y = 1 | Y_hat = 1) = Pr(Y_hat = 1 | Y = 1) * Pr(Y = 1) / Pr(Y_hat = 1)
+
+# Dr. knows that disease prevalence is 5 in 1000 (i.e Pr(Y = 1) = 0.0005)
+# And remember: Y_hat from the dataset was 0.5. Therefore:
+# Pr(Y = 1) / Pr(Y_hat = 1) = 0.0005 / 0.5 = 0.01
+
+# Given that the calculated val above is going to be multiplied by a decimal,
+# we can conclude that our precision is going to be < 0.01 and that our algorithm is shit.
+
