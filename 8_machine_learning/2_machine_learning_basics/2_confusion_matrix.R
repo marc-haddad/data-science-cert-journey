@@ -39,16 +39,17 @@ prev # 77.3% of dataset is male
 # When measuring outcomes from a specific category
 # we can represent positive outcomes as Y = 1, and negative as Y = 0
 
-# Sensitivity is defined as the ability of an algorithm to predict a positive outcome
-# when the actual outcome is positive. Thus, Y_hat = 1 when Y = 1
+# Sensitivity is defined as the ability of an algorithm to predict a positive outcome when the actual outcome is positive. 
+# When Y = 1, Y_hat = 1 
 
 # An algorithm that calls everything positive (Y_hat always = 1 no matter what)
 # Y_hat has perfect sensitivity, which isn't enough to evaluate an outcome. Thus, we need specificity.
 
 # Specificity is the ability of an algorithm to NOT predict the positive (i.e. expected outcome Y_hat is 0 when actual outcome Y is 0):
-# Y_hat = 0, Y = 0 
+# When Y = 0, Y_hat = 0
 
 # High sens.: Y = 1 => Y_hat = 1 (note: fat arrow means "implies")
+
 # High speci.: Y = 0 => Y_hat = 0
 
 # Another way to define high speci.: proportion of positive predictions that are actually positive.
@@ -62,11 +63,13 @@ conf_names = matrix(c("True Positives(TP)", "False Negatives(FN)", "False Positi
 rownames(conf_names) = c("Predicted +", "Predicted -")
 colnames(conf_names) = c("Actually +", "Actually -")
 conf_names
+
 #                 Actually+             Actually-           
 # Predicted+  "True Positives(TP)"  "False Positives(FP)"
 # Predicted-  "False Negatives(FN)" "True Negatives(TN)" 
 
 # Note: The above plot took WAY TOO MUCH TIME to get to print correctly... Good heavens...
+# Better method I just discovered: table(y_hat, y) ... f my life
 
 # Sensitivity = TP / (TP + FN)
 # Sens. is the proportion of correctly called Positives divided by total num of actual Positives (which includes False Negatives)
