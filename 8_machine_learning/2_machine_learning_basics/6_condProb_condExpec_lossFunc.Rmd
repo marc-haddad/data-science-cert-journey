@@ -2,8 +2,10 @@
 title: "Conditional Probabilities, Conditional Expectations, and Loss Function"
 author: "Marc Haddad"
 output:
+  html_document:
+    df_print: paged
   html_notebook:
-    md_document
+    theme: cerulean
 ---
 
 
