@@ -3,7 +3,7 @@ title: "Conditional Probabilities, Conditional Expectations, and Loss Function"
 author: "Marc Haddad"
 output:
   html_notebook:
-    github_document
+    md_document
 ---
 
 
