@@ -47,8 +47,8 @@ $$\hat{Y}=\max_kp_k(\mathbf{x})$$
 However, we can't compute the above equation because we don't know the $p_k$ of $$\mathbf{x}$$'s. This exemplifies the main challenge of Machine Learning: Estimating these conditional probabilities.
 
 
-The better our algorithm estimates $$\hat{p_k}(\mathbf{x})$$,  
-the better our predictor $$\hat{Y}=\max_k\hat{p_k}(\mathbf{x})$$
+The better our algorithm estimates $$\hat{p_k}(\mathbf{x})$$ ,  
+the better our predictor $$\hat{Y}=\max_k \hat{p_k}(\mathbf{x})$$
 
 
 The quality of our prediction will depend on two things:  

@@ -60,9 +60,9 @@ these conditional probabilities.
 
 The better our algorithm estimates
 $$\\hat{p\_k}(\\mathbf{x})$$
-,  
+ ,  
 the better our predictor
-$$\\hat{Y}=\\max\_k\\hat{p\_k}(\\mathbf{x})$$
+$$\\hat{Y}=\\max\_k \\hat{p\_k}(\\mathbf{x})$$
 
 The quality of our prediction will depend on two things:
 
