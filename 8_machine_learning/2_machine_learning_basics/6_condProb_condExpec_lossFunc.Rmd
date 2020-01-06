@@ -18,9 +18,9 @@ Mathematically represented as:
 
 $$(X_1 = x_1, X_2 = x_2, ..., X_p = x_p)$$  
 
-for **observed values** $(x_1,...,x_p)$ of **covariates** $$(X_1,...,X_p)$$.
+for **observed values** $$(x_1,...,x_p)$$ of **covariates** $$(X_1,...,X_p)$$.
   
-We denote the conditional probabilities of each class $k$:
+We denote the conditional probabilities of each class $$k$$:
 
 $$Pr(Y = k\ |\ X_1 = x_1,\  X_2 = x_2,...,X_p = x_p)$$  
 for $$k = (1,...,K)$$.  
@@ -33,9 +33,9 @@ $$\mathbf{x} = (x_1,...,x_p)$$.
   
   
 
-The conditional probability of being in class $k$ is:  
+The conditional probability of being in class $$k$$ is:  
 
-$$p_k(\mathbf{x}) = Pr\left(Y = k\ |\ \mathbf{X}=\mathbf{x}\right)$$
+$$p_k(\mathbf{x}) = \Pr(Y = k\ |\ \mathbf{X}=\mathbf{x})$$
 for $$k = (1,...,K)$$.
 
 For any set of predictors $$\mathbf{X}$$ we will predict the class $$k$$ with the largest probability among $$p_1(x),\  p_2(x),...,\ p_K(x)$$  
@@ -44,11 +44,12 @@ Which can be written as:
 $$\hat{Y}=\max_kp_k(\mathbf{x})$$
 
 
-However, we can't compute the above equation because we don't know the $p_k$ of $$\mathbf{x}$$'s. This exemplifies the main challenge of Machine Learning: Estimating these conditional probabilities.
+However, we can't compute the above equation because we don't know the $$p_k$$ of $$\mathbf{x}$$'s. This exemplifies the main challenge of Machine Learning: Estimating these conditional probabilities.
 
 
-The better our algorithm estimates $$\hat{p_k}(\mathbf{x})$$ ,  
-the better our predictor $$\hat{Y}=\max_k \hat{p_k}(\mathbf{x})$$
+The better our algorithm estimates $$\hat{p_k}(\mathbf{x})$$  
+
+the better our predictor $$\hat{Y}=\max_k \hat{p_k}(\mathbf{x})$$  
 
 
 The quality of our prediction will depend on two things:  
@@ -56,7 +57,7 @@ The quality of our prediction will depend on two things:
 
 1. How close the maximum probability $$\max_kp_k(\mathbf{x})$$ is to 1  
 
-2. How close our estimate of the probabilities $$\hat{p_k}(\mathbf{x})$$ are to the actual probabilities $$p_k(\mathbf{x})$$
+2. How close our estimate of the probabilities $$\hat{p_k}(\mathbf{x})$$ are to the actual probabilities $$p_k(\mathbf{x})$$  
 
 Because item 1 is determined by the nature of each problem, our best option is to use item 2 to best estimate conditional probabilities.
 

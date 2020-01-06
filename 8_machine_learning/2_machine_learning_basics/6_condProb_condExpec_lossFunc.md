@@ -14,12 +14,15 @@ Mathematically represented as:
 
 (*X*<sub>1</sub> = *x*<sub>1</sub>, *X*<sub>2</sub> = *x*<sub>2</sub>, ..., *X*<sub>*p*</sub> = *x*<sub>*p*</sub>)
 
-for **observed values** (*x*<sub>1</sub>, ..., *x*<sub>*p*</sub>) of
-**covariates**
+for **observed values**
+(*x*<sub>1</sub>, ..., *x*<sub>*p*</sub>)
+ of **covariates**
 (*X*<sub>1</sub>, ..., *X*<sub>*p*</sub>)
 .
 
-We denote the conditional probabilities of each class *k*:
+We denote the conditional probabilities of each class
+*k*
+:
 
 *P**r*(*Y* = *k* | *X*<sub>1</sub> = *x*<sub>1</sub>, *X*<sub>2</sub> = *x*<sub>2</sub>, ..., *X*<sub>*p*</sub> = *x*<sub>*p*</sub>)
   
@@ -34,9 +37,11 @@ We use bold letters to write out all the predictors like this:
 **x** = (*x*<sub>1</sub>, ..., *x*<sub>*p*</sub>)
 .
 
-The conditional probability of being in class *k* is:
+The conditional probability of being in class
+*k*
+ is:
 
-*p*<sub>*k*</sub>(**x**) = *P**r*(*Y*=*k* | **X**=**x**)
+*p*<sub>*k*</sub>(**x**) = Pr (*Y* = *k* | **X** = **x**)
  for
 *k* = (1, ..., *K*)
 .
@@ -53,14 +58,15 @@ Which can be written as:
 *Ŷ* = max<sub>*k*</sub>*p*<sub>*k*</sub>(**x**)
 
 However, we can’t compute the above equation because we don’t know the
-*p*<sub>*k*</sub> of
+*p*<sub>*k*</sub>
+ of
 **x**
 ’s. This exemplifies the main challenge of Machine Learning: Estimating
 these conditional probabilities.
 
 The better our algorithm estimates
 $$\\hat{p\_k}(\\mathbf{x})$$
- ,  
+
 the better our predictor
 $$\\hat{Y}=\\max\_k \\hat{p\_k}(\\mathbf{x})$$
 
@@ -70,9 +76,9 @@ The quality of our prediction will depend on two things:
     max<sub>*k*</sub>*p*<sub>*k*</sub>(**x**)
      is to 1
 
-2.  How close our estimate of the probabilities
+2.  How close our estimate of the probabilities 
     $$\\hat{p\_k}(\\mathbf{x})$$
-     are to the actual probabilities
+     are to the actual probabilities
     *p*<sub>*k*</sub>(**x**)
 
 Because item 1 is determined by the nature of each problem, our best
