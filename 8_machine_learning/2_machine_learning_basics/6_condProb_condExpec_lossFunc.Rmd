@@ -4,8 +4,6 @@ author: "Marc Haddad"
 output:
   html_document: 
     keep_md: yes
-  html_notebook:
-    theme: cerulean
 ---
 
 
