@@ -1,8 +1,8 @@
 ---
 title: "Intro to Machine Learning: Notation"
-subtitle: "_Notes from Dr. Irizarry's lecture on edX_"
+subtitle: "Notes on Dr. Irizarry's lecture on edX"
 author: "_Marc Omar Haddad_"
-date: "_`r format(Sys.time(), '%d %B, %Y')`_"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:
     latex_engine: xelatex
