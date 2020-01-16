@@ -1,0 +1,78 @@
+---
+title: "Confusion Matrix"
+subtitle: "Notes on Dr. Irizarry's lecture"
+author: "_Marc Omar Haddad_"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+---
+\
+
+```{r dependencies, include=FALSE, results='hide'}
+library(tidyverse)
+library(caret)
+library(dslabs)
+data(heights)
+set.seed(2, sample.kind = "Rounding")
+options(digits = 3)
+```
+
+We previously defined a prediction rule that predicts `male` any height above $64$ inches. However, given the fact that `female` average height is about $65$ inches, there appears to be a conflict with our rule: if the average `female` height is $65$ inches, why does our rule tell us to predict `male` for those who are $65$ inches tall? 
+
+> Overall accuracy can be a deceptive measure.  
+-_Dr. Rafael Irizarry_
+
+We can see this by constructing a **Confusion Matrix**: A tabulation of *prediction* and *actual value*.
+```{r confusion_tbl}
+table(predicted = y_hat, actual = test_set$sex)
+```
+The table above is read like so:  
+
+* Subjects that were *actually* `female` **and** *predicted* to be `female`: $50$
+
+* Subjects that were *actually* `male` **but** *predicted* to be `female`: $27$
+
+* Subjects that were *actually* `female` **but** *predicted* to be `male`: $69$
+
+* Subjects that were *actually* `male` **and** *predicted* to be `male`: $379$
+
+Looking at the above values closely, a problem emerges: `male`'s are *over represented* in our data set. Computing the accuracy separately for each sex reflects as much:
+```{r sex_accuracy}
+test_set %>% 
+  mutate(y_hat = y_hat) %>% 
+  group_by(sex) %>% 
+  summarize(accuracy = mean(y_hat == sex))
+```
+
+We have a very high accuracy when predicting the sex of `male`'s: $93.3\%$, but an extremely low accuracy when predicting the sex of `female`'s: $42.0\%$. **Too many `female`'s are predicted to be `male`**.  
+\
+
+Our high overall accuracy despite our low `female` accuracy is due to **Prevalence**: There are more `male`'s in our data set than `female`'s.
+```{r prevalance}
+prev = mean(y == "Male")
+prev
+```
+
+What this means is that the *incorrect* predictions of `female`'s is **outweighed** by correctly predicting more `male`'s. This is a significant problem in Machine Learning: If our training data is biased, our algorithm will be biased. Therefore, we need to look at metrics other than overall accuracy, that are robust to prevalence, when evaluating a Machine Learning algorithm.
+\
+
+
+### Derived Metrics from the Confusion Matrix: Sensitivity and Specificity
+
+A general improvement to only studying overall accuracy is to study **Sensitivity** and **Specificity** separately. These two metrics can be defined with a binary outcome. When the outcomes are **categorical**, we can define these metrics for a *specific* category. For example, when predicting digits, we can calculate the Sensitivity and Specificity of correctly predicting "$2$" as opposed to some other digit. By selecting "$2$" we've specified a category of interest.
+\
+
+When $Y = 1$, we will define these outcomes as **positive outcomes**.  When $Y = 0$, we will define these outcomes as **negative outcomes**.
+\
+
+**Sensitivity** is defined as the ability of an algorithm to **predict a positive outcome**, $\hat{Y} = 1$, when the **actual outcome is positive**, $Y = 1$. However, because an algorithm that predicts all $Y$'s to be positive (i.e. an algorithm has $\hat{Y} = 1$, no matter what) has **perfect sensitivity**, Sensitivity alone is not adequate when evaluating algorithms.  
+
+**Specificity** is defined as the ability of an algorithm to **not predict a positive outcome**, $\hat{Y}≠ 1$ OR $\hat{Y}=0$, when the **actual outcome is not positive**, $Y ≠ 1$ OR $Y = 0$. We can summarize like so:
+$$ \mathrm{High\ Sensitivity}\\ Y = 1 \underset{implies}⇒ \hat{Y} = 1 \\ $$
+$$
+\mathrm{High\ Specificity}\\ Y = 0 \underset{implies}⇒ \hat{Y} = 0
+$$
+
+
