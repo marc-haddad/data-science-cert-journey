@@ -1,12 +1,15 @@
 ---
-title: "Intro to Machine Learning: Notation"
-subtitle: "Notes on Dr. Irizarry's lecture on edX"
+title: "Notation"
+subtitle: "Machine Learning - Section 1.1.1"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  pdf_document:
-    latex_engine: xelatex
-    df_print: kable
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  #pdf_document:
+    #latex_engine: xelatex
+    #df_print: kable
 ---
 
 

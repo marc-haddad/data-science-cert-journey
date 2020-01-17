@@ -1,12 +1,15 @@
 ---
 title: "Confusion Matrix"
-subtitle: "Notes on Dr. Irizarry's lecture"
+subtitle: "Machine Learning - Section 2.1.2"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  pdf_document:
-    latex_engine: xelatex
-    df_print: kable
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  #pdf_document:
+    #latex_engine: xelatex
+    #df_print: kable
 ---
 \
 
