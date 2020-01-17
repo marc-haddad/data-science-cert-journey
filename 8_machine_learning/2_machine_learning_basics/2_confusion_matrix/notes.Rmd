@@ -4,9 +4,9 @@ subtitle: "Notes on Dr. Irizarry's lecture"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  html_notebook:
-    theme: readable
-    highlight: zenburn
+  pdf_document:
+    latex_engine: xelatex
+    df_print: kable
 ---
 \
 
@@ -17,6 +17,22 @@ library(dslabs)
 data(heights)
 set.seed(2, sample.kind = "Rounding")
 options(digits = 3)
+y = heights$sex # Categorical outcome (male or female)
+x = heights$height
+# Var containing index vals
+test_index = createDataPartition(y, times = 1, p = 0.5, list = FALSE)
+# The actual splitting of the dataset by rand. gen. index vals.
+train_set = heights[-test_index, ]
+test_set = heights[test_index, ]
+cutoff = seq(61, 70) # Defining sequence of cutoffs
+accuracy = map_dbl(cutoff, function(x) {
+  y_hat = ifelse(train_set$height > x, "Male", "Female") %>% 
+    factor(levels = levels(test_set$sex))
+  mean(y_hat == train_set$sex)
+})
+best_cutoff = cutoff[which.max(accuracy)]
+y_hat = ifelse(test_set$height > best_cutoff, "Male", "Female") %>%
+  factor(levels = levels(test_set$sex))
 ```
 
 We previously defined a prediction rule that predicts `male` any height above $64$ inches. However, given the fact that `female` average height is about $65$ inches, there appears to be a conflict with our rule: if the average `female` height is $65$ inches, why does our rule tell us to predict `male` for those who are $65$ inches tall? 
@@ -46,7 +62,7 @@ test_set %>%
   summarize(accuracy = mean(y_hat == sex))
 ```
 
-We have a very high accuracy when predicting the sex of `male`'s: $93.3\%$, but an extremely low accuracy when predicting the sex of `female`'s: $42.0\%$. **Too many `female`'s are predicted to be `male`**.  
+Our algorithm has very high accuracy when predicting `male`: $93.3\%$, but extremely low accuracy when predicting `female`: $42.0\%$. **Too many `female`'s are predicted to be `male`**.  
 \
 
 Our high overall accuracy despite our low `female` accuracy is due to **Prevalence**: There are more `male`'s in our data set than `female`'s.
@@ -56,6 +72,8 @@ prev
 ```
 
 What this means is that the *incorrect* predictions of `female`'s is **outweighed** by correctly predicting more `male`'s. This is a significant problem in Machine Learning: If our training data is biased, our algorithm will be biased. Therefore, we need to look at metrics other than overall accuracy, that are robust to prevalence, when evaluating a Machine Learning algorithm.
+\
+
 \
 
 
@@ -69,10 +87,100 @@ When $Y = 1$, we will define these outcomes as **positive outcomes**.  When $Y =
 
 **Sensitivity** is defined as the ability of an algorithm to **predict a positive outcome**, $\hat{Y} = 1$, when the **actual outcome is positive**, $Y = 1$. However, because an algorithm that predicts all $Y$'s to be positive (i.e. an algorithm has $\hat{Y} = 1$, no matter what) has **perfect sensitivity**, Sensitivity alone is not adequate when evaluating algorithms.  
 
-**Specificity** is defined as the ability of an algorithm to **not predict a positive outcome**, $\hat{Y}≠ 1$ OR $\hat{Y}=0$, when the **actual outcome is not positive**, $Y ≠ 1$ OR $Y = 0$. We can summarize like so:
-$$ \mathrm{High\ Sensitivity}\\ Y = 1 \underset{implies}⇒ \hat{Y} = 1 \\ $$
+**Specificity** is defined as the ability of an algorithm to **not predict a positive outcome**, $\hat{Y}=0$, when the **actual outcome is not positive**, $Y = 0$. We can summarize like so:
+$$ \mathrm{High\ Sensitivity}:\ Y = 1 \underset{implies}⇒ \hat{Y} = 1 \\ $$
 $$
-\mathrm{High\ Specificity}\\ Y = 0 \underset{implies}⇒ \hat{Y} = 0
+\mathrm{High\ Specificity}:\ Y = 0 \underset{implies}⇒ \hat{Y} = 0
 $$
 
+There is a second way to define **Specificity**: The proportion of **positive predictions** that are **actually positive**(i.e. (correct positive predictions) / (all positive predictions)). In this case high Specificity is defined as:  
+$$
+\mathrm{High\ Specificity}:\ \hat{Y} = 1 \underset{implies}⇒ Y=1
+$$
+\
+
+To differentiate between these metrics, each of the four entries in the confusion matrix has a unique name. 
+
+```{r table2, echo=FALSE}
+conf_names = matrix(c("True Positives(TP)", "False Negatives(FN)", "False Positives(FP)", "True Negatives(TN)"), nrow = 2, ncol = 2)
+rownames(conf_names) = c("Predicted +", "Predicted -")
+colnames(conf_names) = c("Actually Positive", "Actually Negative")
+data.frame(conf_names)
+```
+  
+* When an **outcome** is **positive** and was **predicted** to be **positive**: True Positives (TP)
+
+* When an **outcome** is **negative** but was **predicted** to be **positive**: False Positives (FP)
+
+* When an **outcome** is **positive** but was **predicted** to be **negative**: False Negatives (FN)
+
+* When an **outcome** is **negative** and was **predicted** to be **negative**: True Negatives (TN)  
+
+\
+
+With these definitions, we can accurately quantify Sensitivity and Specificity:
+
+$$ \mathrm{Sensitivity_1}= \frac{TP}{(TP + FN)} \\
+$$
+
+$$
+\mathrm{Specificity_2}= \frac{TN}{(TN + FP)}
+$$
+
+
+
+
+\
+
+
+There is another way of quantifying Specificity:  
+$$
+\mathrm{Specificity_3}= \frac{TP}{(TP + FP)}
+$$
+
+
+$^1$ $_\mathrm{This\ formulation\ of\ Sensitivity\ is\ also\ known\ as\ the\ \mathbf{True\ Positive\ Rate\ (TPR)}\ or\ \mathbf{Recall}.}$  
+
+$^2$ $_\mathrm{This\ formulation\ of\ Specificity\ is\ also\ known\ as\ the\ \mathbf{True\ Negative\ Rate\ (TNR)}.}$
+
+$^3$ $_\mathrm{This\ formulation\ of\ Specificity\ is\ also\ known\ as\ the\ \mathbf{Positive\ Predictive\ Value\ (PPV)}\ or\ \mathbf{Precision}.}$
+\
+\
+
+To help in understanding the above, keep in mind that:  
+
+$(TP + FN) = \mathrm{All\ positive\ outcomes}$  
+$(TN + FP) = \mathrm{All\ negative\ outcomes}$  
+$(TP + FP) = \mathrm{All\ positive\ predictions}$  
+\
+
+Note that unlike the True Positive Rate and the True Negative Rate, **Precision** is affected by **Prevalence**. The higher the Prevalence, the higher the Precision.
+\newpage
+
+### Summary Table
+
+```{r summary_tbl, echo=FALSE}
+Measure = c("Sensitivity", "Specificity", "Specificity")
+Name_1 = c("TPR", "TNR", "PPV")
+Name_2 = c("Recall", "1 - FPR", "Precision")
+Calculation = c("TP / (TP+FN)", "TN / (TN+FP)", "TP / (TP+FP)")
+As_Probability = c("Pr(Y_hat = 1 | Y = 1)", "Pr(Y_hat = 0 | Y = 0)", "Pr(Y = 1 | Y_hat = 1)")
+data.frame(Measure, Name_1, Name_2, Calculation, As_Probability)
+```
+
+TPR = True Positive Rate  
+TNR = True Negative Rate  
+PPV = Positive Predictive Value  
+FPR = False Positive Rate (Not covered in this lecture)
+\
+
+### `confusionMatrix()`
+The `confusionMatrix` function in the `caret` package computes all of the aforementioned metrics once we define what our algorithm should consider to be positive.  
+The function expects factors as inputs. The first factor level is considered to represent our "positive" outcome $Y = 1$. In our example, `female` is the first level.  
+
+The usage of `confusionMatrix` is as follows:
+
+```{r confusionMatrix}
+confusionMatrix(data = y_hat, reference = test_set$sex)
+```
 

@@ -1826,7 +1826,7 @@ summary {
 <h1 class="title toc-ignore">Confusion Matrix</h1>
 <h3 class="subtitle">Notes on Dr. Irizarry’s lecture</h3>
 <h4 class="author"><em>Marc Omar Haddad</em></h4>
-<h4 class="date">16 January, 2020</h4>
+<h4 class="date">17 January, 2020</h4>
 
 </div>
 
@@ -1880,7 +1880,7 @@ predicted Female Male
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>We have a very high accuracy when predicting the sex of <code>male</code>’s: <span class="math inline">\(93.3\%\)</span>, but an extremely low accuracy when predicting the sex of <code>female</code>’s: <span class="math inline">\(42.0\%\)</span>. <strong>Too many <code>female</code>’s are predicted to be <code>male</code></strong>.<br />
+<p>Our algorithm has very high accuracy when predicting <code>male</code>: <span class="math inline">\(93.3\%\)</span>, but extremely low accuracy when predicting <code>female</code>: <span class="math inline">\(42.0\%\)</span>. <strong>Too many <code>female</code>’s are predicted to be <code>male</code></strong>.<br />
 <br />
 </p>
 <p>Our high overall accuracy despite our low <code>female</code> accuracy is due to <strong>Prevalence</strong>: There are more <code>male</code>’s in our data set than <code>female</code>’s.</p>
@@ -1897,6 +1897,8 @@ predicted Female Male
 <!-- rnb-text-begin -->
 <p>What this means is that the <em>incorrect</em> predictions of <code>female</code>’s is <strong>outweighed</strong> by correctly predicting more <code>male</code>’s. This is a significant problem in Machine Learning: If our training data is biased, our algorithm will be biased. Therefore, we need to look at metrics other than overall accuracy, that are robust to prevalence, when evaluating a Machine Learning algorithm.<br />
 </p>
+<p><br />
+</p>
 <div id="derived-metrics-from-the-confusion-matrix-sensitivity-and-specificity" class="section level3">
 <h3>Derived Metrics from the Confusion Matrix: Sensitivity and Specificity</h3>
 <p>A general improvement to only studying overall accuracy is to study <strong>Sensitivity</strong> and <strong>Specificity</strong> separately. These two metrics can be defined with a binary outcome. When the outcomes are <strong>categorical</strong>, we can define these metrics for a <em>specific</em> category. For example, when predicting digits, we can calculate the Sensitivity and Specificity of correctly predicting “<span class="math inline">\(2\)</span>” as opposed to some other digit. By selecting “<span class="math inline">\(2\)</span>” we’ve specified a category of interest.<br />
@@ -1904,13 +1906,122 @@ predicted Female Male
 <p>When <span class="math inline">\(Y = 1\)</span>, we will define these outcomes as <strong>positive outcomes</strong>. When <span class="math inline">\(Y = 0\)</span>, we will define these outcomes as <strong>negative outcomes</strong>.<br />
 </p>
 <p><strong>Sensitivity</strong> is defined as the ability of an algorithm to <strong>predict a positive outcome</strong>, <span class="math inline">\(\hat{Y} = 1\)</span>, when the <strong>actual outcome is positive</strong>, <span class="math inline">\(Y = 1\)</span>. However, because an algorithm that predicts all <span class="math inline">\(Y\)</span>’s to be positive (i.e. an algorithm has <span class="math inline">\(\hat{Y} = 1\)</span>, no matter what) has <strong>perfect sensitivity</strong>, Sensitivity alone is not adequate when evaluating algorithms.</p>
-<p><strong>Specificity</strong> is defined as the ability of an algorithm to <strong>not predict a positive outcome</strong>, <span class="math inline">\(\hat{Y}≠ 1\)</span> OR <span class="math inline">\(\hat{Y}=0\)</span>, when the <strong>actual outcome is not positive</strong>, <span class="math inline">\(Y ≠ 1\)</span> OR <span class="math inline">\(Y = 0\)</span>. We can summarize like so: <span class="math display">\[ \mathrm{High\ Sensitivity}\\ Y = 1 \underset{implies}⇒ \hat{Y} = 1 \\ \]</span> <span class="math display">\[
+<p><strong>Specificity</strong> is defined as the ability of an algorithm to <strong>not predict a positive outcome</strong>, <span class="math inline">\(\hat{Y}=0\)</span>, when the <strong>actual outcome is not positive</strong>, <span class="math inline">\(Y = 0\)</span>. We can summarize like so: <span class="math display">\[ \mathrm{High\ Sensitivity}\\ Y = 1 \underset{implies}⇒ \hat{Y} = 1 \\ \]</span> <span class="math display">\[
 \mathrm{High\ Specificity}\\ Y = 0 \underset{implies}⇒ \hat{Y} = 0
 \]</span></p>
+<p>There is a second way to define <strong>Specificity</strong>: The proportion of <strong>positive predictions</strong> that are <strong>actually positive</strong>(i.e. (correct positive predictions) / (all positive predictions)). In this case high Specificity is defined as:<br />
+<span class="math display">\[
+\mathrm{High\ Specificity}\\ \hat{Y} = 1 \underset{implies}⇒ Y=1
+\]</span><br />
+</p>
+<p>To differentiate between these metrics, each of the four entries in the confusion matrix has a unique name.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgQWN0dWFsbHkgKyAgICAgICAgICAgIEFjdHVhbGx5IC0gICAgICAgICAgIFxuUHJlZGljdGVkICsgXCJUcnVlIFBvc2l0aXZlcyhUUClcIiAgXCJGYWxzZSBQb3NpdGl2ZXMoRlApXCJcblByZWRpY3RlZCAtIFwiRmFsc2UgTmVnYXRpdmVzKEZOKVwiIFwiVHJ1ZSBOZWdhdGl2ZXMoVE4pXCIgXG4ifQ== -->
+<pre><code>            Actually +            Actually -           
+Predicted + &quot;True Positives(TP)&quot;  &quot;False Positives(FP)&quot;
+Predicted - &quot;False Negatives(FN)&quot; &quot;True Negatives(TN)&quot; </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><p>When an <strong>outcome</strong> is <strong>positive</strong> and was <strong>predicted</strong> to be <strong>positive</strong>: True Positives (TP)</p></li>
+<li><p>When an <strong>outcome</strong> is <strong>negative</strong> but was <strong>predicted</strong> to be <strong>positive</strong>: False Positives (FP)</p></li>
+<li><p>When an <strong>outcome</strong> is <strong>positive</strong> but was <strong>predicted</strong> to be <strong>negative</strong>: False Negatives (FN)</p></li>
+<li><p>When an <strong>outcome</strong> is <strong>negative</strong> and was <strong>predicted</strong> to be <strong>negative</strong>: True Negatives (TN)</p></li>
+</ul>
+<p><br />
+</p>
+<p>With these definitions, we can accurately quantify Sensitivity and Specificity:</p>
+<p><span class="math display">\[ \mathrm{Sensitivity_1}= \frac{TP}{(TP + FN)} \\
+\]</span></p>
+<p><span class="math display">\[
+\mathrm{Specificity_2}= \frac{TN}{(TN + FP)}
+\]</span></p>
+<p><br />
+</p>
+<p>There is another way of quantifying Specificity:<br />
+<span class="math display">\[
+\mathrm{Specificity_3}= \frac{TP}{(TP + FP)}
+\]</span></p>
+<p><span class="math inline">\(^1\)</span> <span class="math inline">\(_\mathrm{This\ formulation\ of\ Sensitivity\ is\ also\ known\ as\ the\ \mathbf{True\ Positive\ Rate\ (TPR)}\ or\ \mathbf{Recall}.}\)</span></p>
+<p><span class="math inline">\(^2\)</span> <span class="math inline">\(_\mathrm{This\ formulation\ of\ Specificity\ is\ also\ known\ as\ the\ \mathbf{True\ Negative\ Rate\ (TNR)}.}\)</span></p>
+<p><span class="math inline">\(^3\)</span> <span class="math inline">\(_\mathrm{This\ formulation\ of\ Specificity\ is\ also\ known\ as\ the\ \mathbf{Positive\ Predictive\ Value\ (PPV)}\ or\ \mathbf{Precision}.}\)</span><br />
+<br />
+</p>
+<p>To help in understanding the above, keep in mind that:</p>
+<p><span class="math inline">\((TP + FN) = \mathrm{All\ positive\ outcomes}\)</span><br />
+<span class="math inline">\((TN + FP) = \mathrm{All\ negative\ outcomes}\)</span><br />
+<span class="math inline">\((TP + FP) = \mathrm{All\ positive\ predictions}\)</span><br />
+<br />
+</p>
+<p>Note that unlike the True Positive Rate and the True Negative Rate, <strong>Precision</strong> is affected by <strong>Prevalence</strong>. The higher the Prevalence, the higher the Precision.<br />
+</p>
+</div>
+<div id="summary-table" class="section level3">
+<h3>Summary Table</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6NSwibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUE1VlRUVS9DUUJEZGZoSkFqSW54M2lPRVVLMWV2SGd3R200Mkc2d0dUbVNwaTJ5eXRHUzdvQ1FlL09YZ2J0c3RYOVZJazJhbmIyYmV6SnVkOWg3N043VitEUUJnQU1QV2dHRUpFMWd2UWJkekM0Q3BpdzhObUtBcXowOFJkQzY5NG15a0dkSUpnSjY5TzhFMnhRdE1FMkdkcGQ0TXJUL2pLQ0djTEFoZkZ0QU1oMlJNUWdudGNsZ2hSWW1pS0lqSEtPUXhFOVpxcXcwamIwUExLUFIxbm1Ya1dRYUVyOG9NL0Y1aHdsNldZS3ovWFViYnFEMG9VL0djanRPRmlyOEttZENXa0RoU3JEMGNJa3FQcXBuTGtuWnB6WlBBZHk2ZFp1QzN1N0JWWURERllMdnJsMkFpN2xqVmZ3MzNBckxtd0xselBPZkxHUXduaUV1N3RlM013U3NaSU04eXA1Yzd2WDgxdDdzb0VacGl0U2lXdW9zbmpKSTV3eXJiRnpGRGIrZnJXdTNnQTZMaG5DSyt1YW5UKzJRSVdUeENJMElQTjdQSzRnOVhGWlZqMHI5QitoaS85RjU3UXh5NVl5WlNTdnF2eEROWldwRHA4dit5WlVKKzYyQ1BTR043UUQyWlQ2ZUlMWWQ4UlBmeUdwdk5LV3dySzIycUJ1MmN4c1RoSkZiRHdkRTdpZFRnTElwR21LcXhDT0dwYm5mR1NNU1ZPb0VtTG84NVVuRzFNS1lLU2ZXQzFRK08yTm80YWdRQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Measure"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Name_1"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Name_2"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["Calculation"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["As_Probability"],"name":[5],"type":["fctr"],"align":["left"]}],"data":[{"1":"Sensitivity","2":"TPR","3":"Recall","4":"TP / (TP+FN)","5":"Pr(Y_hat = 1 | Y = 1)"},{"1":"Specificity","2":"TNR","3":"1 - FPR","4":"TN / (TN+FP)","5":"Pr(Y_hat = 0 | Y = 0)"},{"1":"Specificity","2":"PPV","3":"Precision","4":"TP / (TP+FP)","5":"Pr(Y = 1 | Y_hat = 1)"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>TPR = True Positive Rate<br />
+TNR = True Negative Rate<br />
+PPV = Positive Predictive Value<br />
+FPR = False Positive Rate (Not covered in this lecture)<br />
+</p>
+</div>
+<div id="confusionmatrix" class="section level3">
+<h3><code>confusionMatrix()</code></h3>
+<p>The <code>confusionMatrix</code> function in the <code>caret</code> package computes all of the aforementioned metrics once we define what our algorithm should consider to be positive.<br />
+The function expects factors as inputs. The first factor level is considered to represent our “positive” outcome <span class="math inline">\(Y = 1\)</span>. In our example, <code>female</code> is the first level.</p>
+<p>The usage of <code>confusionMatrix</code> is as follows:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uZnVzaW9uTWF0cml4KGRhdGEgPSB5X2hhdCwgcmVmZXJlbmNlID0gdGVzdF9zZXQkc2V4KVxuYGBgIn0= -->
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> y_hat, <span class="dt">reference =</span> test_set<span class="op">$</span>sex)</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQ29uZnVzaW9uIE1hdHJpeCBhbmQgU3RhdGlzdGljc1xuXG4gICAgICAgICAgUmVmZXJlbmNlXG5QcmVkaWN0aW9uIEZlbWFsZSBNYWxlXG4gICAgRmVtYWxlICAgICA1MCAgIDI3XG4gICAgTWFsZSAgICAgICA2OSAgMzc5XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBBY2N1cmFjeSA6IDAuODE3ICAgICAgICAgXG4gICAgICAgICAgICAgICAgIDk1JSBDSSA6ICgwLjc4MSwgMC44NDkpXG4gICAgTm8gSW5mb3JtYXRpb24gUmF0ZSA6IDAuNzczICAgICAgICAgXG4gICAgUC1WYWx1ZSBbQWNjID4gTklSXSA6IDAuMDA4MzUgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICBLYXBwYSA6IDAuNDA0ICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gTWNuZW1hcidzIFRlc3QgUC1WYWx1ZSA6IDIuODZlLTA1ICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICBTZW5zaXRpdml0eSA6IDAuNDIwMiAgICAgICAgXG4gICAgICAgICAgICBTcGVjaWZpY2l0eSA6IDAuOTMzNSAgICAgICAgXG4gICAgICAgICBQb3MgUHJlZCBWYWx1ZSA6IDAuNjQ5NCAgICAgICAgXG4gICAgICAgICBOZWcgUHJlZCBWYWx1ZSA6IDAuODQ2MCAgICAgICAgXG4gICAgICAgICAgICAgUHJldmFsZW5jZSA6IDAuMjI2NyAgICAgICAgXG4gICAgICAgICBEZXRlY3Rpb24gUmF0ZSA6IDAuMDk1MiAgICAgICAgXG4gICBEZXRlY3Rpb24gUHJldmFsZW5jZSA6IDAuMTQ2NyAgICAgICAgXG4gICAgICBCYWxhbmNlZCBBY2N1cmFjeSA6IDAuNjc2OCAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgJ1Bvc2l0aXZlJyBDbGFzcyA6IEZlbWFsZSAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4ifQ== -->
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Female Male
+    Female     50   27
+    Male       69  379
+                                        
+               Accuracy : 0.817         
+                 95% CI : (0.781, 0.849)
+    No Information Rate : 0.773         
+    P-Value [Acc &gt; NIR] : 0.00835       
+                                        
+                  Kappa : 0.404         
+                                        
+ Mcnemar's Test P-Value : 2.86e-05      
+                                        
+            Sensitivity : 0.4202        
+            Specificity : 0.9335        
+         Pos Pred Value : 0.6494        
+         Neg Pred Value : 0.8460        
+             Prevalence : 0.2267        
+         Detection Rate : 0.0952        
+   Detection Prevalence : 0.1467        
+      Balanced Accuracy : 0.6768        
+                                        
+       'Positive' Class : Female        
+                                        </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29uZnVzaW9uIE1hdHJpeCIKc3VidGl0bGU6ICJOb3RlcyBvbiBEci4gSXJpemFycnkncyBsZWN0dXJlIgphdXRob3I6ICJfTWFyYyBPbWFyIEhhZGRhZF8iCmRhdGU6ICJgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCLCAlWScpYCIKb3V0cHV0OiAKICBodG1sX25vdGVib29rOgogICAgdGhlbWU6IHJlYWRhYmxlCiAgICBoaWdobGlnaHQ6IHplbmJ1cm4KLS0tClwKCmBgYHtyIGRlcGVuZGVuY2llcywgaW5jbHVkZT1GQUxTRSwgcmVzdWx0cz0naGlkZSd9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGNhcmV0KQpsaWJyYXJ5KGRzbGFicykKZGF0YShoZWlnaHRzKQpzZXQuc2VlZCgyLCBzYW1wbGUua2luZCA9ICJSb3VuZGluZyIpCm9wdGlvbnMoZGlnaXRzID0gMykKYGBgCgpXZSBwcmV2aW91c2x5IGRlZmluZWQgYSBwcmVkaWN0aW9uIHJ1bGUgdGhhdCBwcmVkaWN0cyBgbWFsZWAgYW55IGhlaWdodCBhYm92ZSAkNjQkIGluY2hlcy4gSG93ZXZlciwgZ2l2ZW4gdGhlIGZhY3QgdGhhdCBgZmVtYWxlYCBhdmVyYWdlIGhlaWdodCBpcyBhYm91dCAkNjUkIGluY2hlcywgdGhlcmUgYXBwZWFycyB0byBiZSBhIGNvbmZsaWN0IHdpdGggb3VyIHJ1bGU6IGlmIHRoZSBhdmVyYWdlIGBmZW1hbGVgIGhlaWdodCBpcyAkNjUkIGluY2hlcywgd2h5IGRvZXMgb3VyIHJ1bGUgdGVsbCB1cyB0byBwcmVkaWN0IGBtYWxlYCBmb3IgdGhvc2Ugd2hvIGFyZSAkNjUkIGluY2hlcyB0YWxsPyAKCj4gT3ZlcmFsbCBhY2N1cmFjeSBjYW4gYmUgYSBkZWNlcHRpdmUgbWVhc3VyZS4gIAotX0RyLiBSYWZhZWwgSXJpemFycnlfCgpXZSBjYW4gc2VlIHRoaXMgYnkgY29uc3RydWN0aW5nIGEgKipDb25mdXNpb24gTWF0cml4Kio6IEEgdGFidWxhdGlvbiBvZiAqcHJlZGljdGlvbiogYW5kICphY3R1YWwgdmFsdWUqLgpgYGB7ciBjb25mdXNpb25fdGJsfQp0YWJsZShwcmVkaWN0ZWQgPSB5X2hhdCwgYWN0dWFsID0gdGVzdF9zZXQkc2V4KQpgYGAKVGhlIHRhYmxlIGFib3ZlIGlzIHJlYWQgbGlrZSBzbzogIAoKKiBTdWJqZWN0cyB0aGF0IHdlcmUgKmFjdHVhbGx5KiBgZmVtYWxlYCAqKmFuZCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBmZW1hbGVgOiAkNTAkCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBtYWxlYCAqKmJ1dCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBmZW1hbGVgOiAkMjckCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBmZW1hbGVgICoqYnV0KiogKnByZWRpY3RlZCogdG8gYmUgYG1hbGVgOiAkNjkkCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBtYWxlYCAqKmFuZCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBtYWxlYDogJDM3OSQKCkxvb2tpbmcgYXQgdGhlIGFib3ZlIHZhbHVlcyBjbG9zZWx5LCBhIHByb2JsZW0gZW1lcmdlczogYG1hbGVgJ3MgYXJlICpvdmVyIHJlcHJlc2VudGVkKiBpbiBvdXIgZGF0YSBzZXQuIENvbXB1dGluZyB0aGUgYWNjdXJhY3kgc2VwYXJhdGVseSBmb3IgZWFjaCBzZXggcmVmbGVjdHMgYXMgbXVjaDoKYGBge3Igc2V4X2FjY3VyYWN5fQp0ZXN0X3NldCAlPiUgCiAgbXV0YXRlKHlfaGF0ID0geV9oYXQpICU+JSAKICBncm91cF9ieShzZXgpICU+JSAKICBzdW1tYXJpemUoYWNjdXJhY3kgPSBtZWFuKHlfaGF0ID09IHNleCkpCmBgYAoKV2UgaGF2ZSBhIHZlcnkgaGlnaCBhY2N1cmFjeSB3aGVuIHByZWRpY3RpbmcgdGhlIHNleCBvZiBgbWFsZWAnczogJDkzLjNcJSQsIGJ1dCBhbiBleHRyZW1lbHkgbG93IGFjY3VyYWN5IHdoZW4gcHJlZGljdGluZyB0aGUgc2V4IG9mIGBmZW1hbGVgJ3M6ICQ0Mi4wXCUkLiAqKlRvbyBtYW55IGBmZW1hbGVgJ3MgYXJlIHByZWRpY3RlZCB0byBiZSBgbWFsZWAqKi4gIApcCgpPdXIgaGlnaCBvdmVyYWxsIGFjY3VyYWN5IGRlc3BpdGUgb3VyIGxvdyBgZmVtYWxlYCBhY2N1cmFjeSBpcyBkdWUgdG8gKipQcmV2YWxlbmNlKio6IFRoZXJlIGFyZSBtb3JlIGBtYWxlYCdzIGluIG91ciBkYXRhIHNldCB0aGFuIGBmZW1hbGVgJ3MuCmBgYHtyIHByZXZhbGFuY2V9CnByZXYgPSBtZWFuKHkgPT0gIk1hbGUiKQpwcmV2CmBgYAoKV2hhdCB0aGlzIG1lYW5zIGlzIHRoYXQgdGhlICppbmNvcnJlY3QqIHByZWRpY3Rpb25zIG9mIGBmZW1hbGVgJ3MgaXMgKipvdXR3ZWlnaGVkKiogYnkgY29ycmVjdGx5IHByZWRpY3RpbmcgbW9yZSBgbWFsZWAncy4gVGhpcyBpcyBhIHNpZ25pZmljYW50IHByb2JsZW0gaW4gTWFjaGluZSBMZWFybmluZzogSWYgb3VyIHRyYWluaW5nIGRhdGEgaXMgYmlhc2VkLCBvdXIgYWxnb3JpdGhtIHdpbGwgYmUgYmlhc2VkLiBUaGVyZWZvcmUsIHdlIG5lZWQgdG8gbG9vayBhdCBtZXRyaWNzIG90aGVyIHRoYW4gb3ZlcmFsbCBhY2N1cmFjeSwgdGhhdCBhcmUgcm9idXN0IHRvIHByZXZhbGVuY2UsIHdoZW4gZXZhbHVhdGluZyBhIE1hY2hpbmUgTGVhcm5pbmcgYWxnb3JpdGhtLgpcCgoKIyMjIERlcml2ZWQgTWV0cmljcyBmcm9tIHRoZSBDb25mdXNpb24gTWF0cml4OiBTZW5zaXRpdml0eSBhbmQgU3BlY2lmaWNpdHkKCkEgZ2VuZXJhbCBpbXByb3ZlbWVudCB0byBvbmx5IHN0dWR5aW5nIG92ZXJhbGwgYWNjdXJhY3kgaXMgdG8gc3R1ZHkgKipTZW5zaXRpdml0eSoqIGFuZCAqKlNwZWNpZmljaXR5Kiogc2VwYXJhdGVseS4gVGhlc2UgdHdvIG1ldHJpY3MgY2FuIGJlIGRlZmluZWQgd2l0aCBhIGJpbmFyeSBvdXRjb21lLiBXaGVuIHRoZSBvdXRjb21lcyBhcmUgKipjYXRlZ29yaWNhbCoqLCB3ZSBjYW4gZGVmaW5lIHRoZXNlIG1ldHJpY3MgZm9yIGEgKnNwZWNpZmljKiBjYXRlZ29yeS4gRm9yIGV4YW1wbGUsIHdoZW4gcHJlZGljdGluZyBkaWdpdHMsIHdlIGNhbiBjYWxjdWxhdGUgdGhlIFNlbnNpdGl2aXR5IGFuZCBTcGVjaWZpY2l0eSBvZiBjb3JyZWN0bHkgcHJlZGljdGluZyAiJDIkIiBhcyBvcHBvc2VkIHRvIHNvbWUgb3RoZXIgZGlnaXQuIEJ5IHNlbGVjdGluZyAiJDIkIiB3ZSd2ZSBzcGVjaWZpZWQgYSBjYXRlZ29yeSBvZiBpbnRlcmVzdC4KXAoKV2hlbiAkWSA9IDEkLCB3ZSB3aWxsIGRlZmluZSB0aGVzZSBvdXRjb21lcyBhcyAqKnBvc2l0aXZlIG91dGNvbWVzKiouICBXaGVuICRZID0gMCQsIHdlIHdpbGwgZGVmaW5lIHRoZXNlIG91dGNvbWVzIGFzICoqbmVnYXRpdmUgb3V0Y29tZXMqKi4KXAoKKipTZW5zaXRpdml0eSoqIGlzIGRlZmluZWQgYXMgdGhlIGFiaWxpdHkgb2YgYW4gYWxnb3JpdGhtIHRvICoqcHJlZGljdCBhIHBvc2l0aXZlIG91dGNvbWUqKiwgJFxoYXR7WX0gPSAxJCwgd2hlbiB0aGUgKiphY3R1YWwgb3V0Y29tZSBpcyBwb3NpdGl2ZSoqLCAkWSA9IDEkLiBIb3dldmVyLCBiZWNhdXNlIGFuIGFsZ29yaXRobSB0aGF0IHByZWRpY3RzIGFsbCAkWSQncyB0byBiZSBwb3NpdGl2ZSAoaS5lLiBhbiBhbGdvcml0aG0gaGFzICRcaGF0e1l9ID0gMSQsIG5vIG1hdHRlciB3aGF0KSBoYXMgKipwZXJmZWN0IHNlbnNpdGl2aXR5KiosIFNlbnNpdGl2aXR5IGFsb25lIGlzIG5vdCBhZGVxdWF0ZSB3aGVuIGV2YWx1YXRpbmcgYWxnb3JpdGhtcy4gIAoKKipTcGVjaWZpY2l0eSoqIGlzIGRlZmluZWQgYXMgdGhlIGFiaWxpdHkgb2YgYW4gYWxnb3JpdGhtIHRvICoqbm90IHByZWRpY3QgYSBwb3NpdGl2ZSBvdXRjb21lKiosICRcaGF0e1l94omgIDEkIE9SICRcaGF0e1l9PTAkLCB3aGVuIHRoZSAqKmFjdHVhbCBvdXRjb21lIGlzIG5vdCBwb3NpdGl2ZSoqLCAkWSDiiaAgMSQgT1IgJFkgPSAwJC4gV2UgY2FuIHN1bW1hcml6ZSBsaWtlIHNvOgokJCBcbWF0aHJte0hpZ2hcIFNlbnNpdGl2aXR5fVxcIFkgPSAxIFx1bmRlcnNldHtpbXBsaWVzfeKHkiBcaGF0e1l9ID0gMSBcXCAkJAokJApcbWF0aHJte0hpZ2hcIFNwZWNpZmljaXR5fVxcIFkgPSAwIFx1bmRlcnNldHtpbXBsaWVzfeKHkiBcaGF0e1l9ID0gMAokJAoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29uZnVzaW9uIE1hdHJpeCIKc3VidGl0bGU6ICJOb3RlcyBvbiBEci4gSXJpemFycnkncyBsZWN0dXJlIgphdXRob3I6ICJfTWFyYyBPbWFyIEhhZGRhZF8iCmRhdGU6ICJgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCLCAlWScpYCIKb3V0cHV0OiAKICBodG1sX25vdGVib29rOgogICAgdGhlbWU6IHJlYWRhYmxlCiAgICBoaWdobGlnaHQ6IHplbmJ1cm4KLS0tClwKCmBgYHtyIGRlcGVuZGVuY2llcywgaW5jbHVkZT1GQUxTRSwgcmVzdWx0cz0naGlkZSd9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGNhcmV0KQpsaWJyYXJ5KGRzbGFicykKZGF0YShoZWlnaHRzKQpzZXQuc2VlZCgyLCBzYW1wbGUua2luZCA9ICJSb3VuZGluZyIpCm9wdGlvbnMoZGlnaXRzID0gMykKYGBgCgpXZSBwcmV2aW91c2x5IGRlZmluZWQgYSBwcmVkaWN0aW9uIHJ1bGUgdGhhdCBwcmVkaWN0cyBgbWFsZWAgYW55IGhlaWdodCBhYm92ZSAkNjQkIGluY2hlcy4gSG93ZXZlciwgZ2l2ZW4gdGhlIGZhY3QgdGhhdCBgZmVtYWxlYCBhdmVyYWdlIGhlaWdodCBpcyBhYm91dCAkNjUkIGluY2hlcywgdGhlcmUgYXBwZWFycyB0byBiZSBhIGNvbmZsaWN0IHdpdGggb3VyIHJ1bGU6IGlmIHRoZSBhdmVyYWdlIGBmZW1hbGVgIGhlaWdodCBpcyAkNjUkIGluY2hlcywgd2h5IGRvZXMgb3VyIHJ1bGUgdGVsbCB1cyB0byBwcmVkaWN0IGBtYWxlYCBmb3IgdGhvc2Ugd2hvIGFyZSAkNjUkIGluY2hlcyB0YWxsPyAKCj4gT3ZlcmFsbCBhY2N1cmFjeSBjYW4gYmUgYSBkZWNlcHRpdmUgbWVhc3VyZS4gIAotX0RyLiBSYWZhZWwgSXJpemFycnlfCgpXZSBjYW4gc2VlIHRoaXMgYnkgY29uc3RydWN0aW5nIGEgKipDb25mdXNpb24gTWF0cml4Kio6IEEgdGFidWxhdGlvbiBvZiAqcHJlZGljdGlvbiogYW5kICphY3R1YWwgdmFsdWUqLgpgYGB7ciBjb25mdXNpb25fdGJsfQp0YWJsZShwcmVkaWN0ZWQgPSB5X2hhdCwgYWN0dWFsID0gdGVzdF9zZXQkc2V4KQpgYGAKVGhlIHRhYmxlIGFib3ZlIGlzIHJlYWQgbGlrZSBzbzogIAoKKiBTdWJqZWN0cyB0aGF0IHdlcmUgKmFjdHVhbGx5KiBgZmVtYWxlYCAqKmFuZCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBmZW1hbGVgOiAkNTAkCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBtYWxlYCAqKmJ1dCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBmZW1hbGVgOiAkMjckCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBmZW1hbGVgICoqYnV0KiogKnByZWRpY3RlZCogdG8gYmUgYG1hbGVgOiAkNjkkCgoqIFN1YmplY3RzIHRoYXQgd2VyZSAqYWN0dWFsbHkqIGBtYWxlYCAqKmFuZCoqICpwcmVkaWN0ZWQqIHRvIGJlIGBtYWxlYDogJDM3OSQKCkxvb2tpbmcgYXQgdGhlIGFib3ZlIHZhbHVlcyBjbG9zZWx5LCBhIHByb2JsZW0gZW1lcmdlczogYG1hbGVgJ3MgYXJlICpvdmVyIHJlcHJlc2VudGVkKiBpbiBvdXIgZGF0YSBzZXQuIENvbXB1dGluZyB0aGUgYWNjdXJhY3kgc2VwYXJhdGVseSBmb3IgZWFjaCBzZXggcmVmbGVjdHMgYXMgbXVjaDoKYGBge3Igc2V4X2FjY3VyYWN5fQp0ZXN0X3NldCAlPiUgCiAgbXV0YXRlKHlfaGF0ID0geV9oYXQpICU+JSAKICBncm91cF9ieShzZXgpICU+JSAKICBzdW1tYXJpemUoYWNjdXJhY3kgPSBtZWFuKHlfaGF0ID09IHNleCkpCmBgYAoKT3VyIGFsZ29yaXRobSBoYXMgdmVyeSBoaWdoIGFjY3VyYWN5IHdoZW4gcHJlZGljdGluZyBgbWFsZWA6ICQ5My4zXCUkLCBidXQgZXh0cmVtZWx5IGxvdyBhY2N1cmFjeSB3aGVuIHByZWRpY3RpbmcgYGZlbWFsZWA6ICQ0Mi4wXCUkLiAqKlRvbyBtYW55IGBmZW1hbGVgJ3MgYXJlIHByZWRpY3RlZCB0byBiZSBgbWFsZWAqKi4gIApcCgpPdXIgaGlnaCBvdmVyYWxsIGFjY3VyYWN5IGRlc3BpdGUgb3VyIGxvdyBgZmVtYWxlYCBhY2N1cmFjeSBpcyBkdWUgdG8gKipQcmV2YWxlbmNlKio6IFRoZXJlIGFyZSBtb3JlIGBtYWxlYCdzIGluIG91ciBkYXRhIHNldCB0aGFuIGBmZW1hbGVgJ3MuCmBgYHtyIHByZXZhbGFuY2V9CnByZXYgPSBtZWFuKHkgPT0gIk1hbGUiKQpwcmV2CmBgYAoKV2hhdCB0aGlzIG1lYW5zIGlzIHRoYXQgdGhlICppbmNvcnJlY3QqIHByZWRpY3Rpb25zIG9mIGBmZW1hbGVgJ3MgaXMgKipvdXR3ZWlnaGVkKiogYnkgY29ycmVjdGx5IHByZWRpY3RpbmcgbW9yZSBgbWFsZWAncy4gVGhpcyBpcyBhIHNpZ25pZmljYW50IHByb2JsZW0gaW4gTWFjaGluZSBMZWFybmluZzogSWYgb3VyIHRyYWluaW5nIGRhdGEgaXMgYmlhc2VkLCBvdXIgYWxnb3JpdGhtIHdpbGwgYmUgYmlhc2VkLiBUaGVyZWZvcmUsIHdlIG5lZWQgdG8gbG9vayBhdCBtZXRyaWNzIG90aGVyIHRoYW4gb3ZlcmFsbCBhY2N1cmFjeSwgdGhhdCBhcmUgcm9idXN0IHRvIHByZXZhbGVuY2UsIHdoZW4gZXZhbHVhdGluZyBhIE1hY2hpbmUgTGVhcm5pbmcgYWxnb3JpdGhtLgpcCgpcCgoKIyMjIERlcml2ZWQgTWV0cmljcyBmcm9tIHRoZSBDb25mdXNpb24gTWF0cml4OiBTZW5zaXRpdml0eSBhbmQgU3BlY2lmaWNpdHkKCkEgZ2VuZXJhbCBpbXByb3ZlbWVudCB0byBvbmx5IHN0dWR5aW5nIG92ZXJhbGwgYWNjdXJhY3kgaXMgdG8gc3R1ZHkgKipTZW5zaXRpdml0eSoqIGFuZCAqKlNwZWNpZmljaXR5Kiogc2VwYXJhdGVseS4gVGhlc2UgdHdvIG1ldHJpY3MgY2FuIGJlIGRlZmluZWQgd2l0aCBhIGJpbmFyeSBvdXRjb21lLiBXaGVuIHRoZSBvdXRjb21lcyBhcmUgKipjYXRlZ29yaWNhbCoqLCB3ZSBjYW4gZGVmaW5lIHRoZXNlIG1ldHJpY3MgZm9yIGEgKnNwZWNpZmljKiBjYXRlZ29yeS4gRm9yIGV4YW1wbGUsIHdoZW4gcHJlZGljdGluZyBkaWdpdHMsIHdlIGNhbiBjYWxjdWxhdGUgdGhlIFNlbnNpdGl2aXR5IGFuZCBTcGVjaWZpY2l0eSBvZiBjb3JyZWN0bHkgcHJlZGljdGluZyAiJDIkIiBhcyBvcHBvc2VkIHRvIHNvbWUgb3RoZXIgZGlnaXQuIEJ5IHNlbGVjdGluZyAiJDIkIiB3ZSd2ZSBzcGVjaWZpZWQgYSBjYXRlZ29yeSBvZiBpbnRlcmVzdC4KXAoKV2hlbiAkWSA9IDEkLCB3ZSB3aWxsIGRlZmluZSB0aGVzZSBvdXRjb21lcyBhcyAqKnBvc2l0aXZlIG91dGNvbWVzKiouICBXaGVuICRZID0gMCQsIHdlIHdpbGwgZGVmaW5lIHRoZXNlIG91dGNvbWVzIGFzICoqbmVnYXRpdmUgb3V0Y29tZXMqKi4KXAoKKipTZW5zaXRpdml0eSoqIGlzIGRlZmluZWQgYXMgdGhlIGFiaWxpdHkgb2YgYW4gYWxnb3JpdGhtIHRvICoqcHJlZGljdCBhIHBvc2l0aXZlIG91dGNvbWUqKiwgJFxoYXR7WX0gPSAxJCwgd2hlbiB0aGUgKiphY3R1YWwgb3V0Y29tZSBpcyBwb3NpdGl2ZSoqLCAkWSA9IDEkLiBIb3dldmVyLCBiZWNhdXNlIGFuIGFsZ29yaXRobSB0aGF0IHByZWRpY3RzIGFsbCAkWSQncyB0byBiZSBwb3NpdGl2ZSAoaS5lLiBhbiBhbGdvcml0aG0gaGFzICRcaGF0e1l9ID0gMSQsIG5vIG1hdHRlciB3aGF0KSBoYXMgKipwZXJmZWN0IHNlbnNpdGl2aXR5KiosIFNlbnNpdGl2aXR5IGFsb25lIGlzIG5vdCBhZGVxdWF0ZSB3aGVuIGV2YWx1YXRpbmcgYWxnb3JpdGhtcy4gIAoKKipTcGVjaWZpY2l0eSoqIGlzIGRlZmluZWQgYXMgdGhlIGFiaWxpdHkgb2YgYW4gYWxnb3JpdGhtIHRvICoqbm90IHByZWRpY3QgYSBwb3NpdGl2ZSBvdXRjb21lKiosICRcaGF0e1l9PTAkLCB3aGVuIHRoZSAqKmFjdHVhbCBvdXRjb21lIGlzIG5vdCBwb3NpdGl2ZSoqLCAkWSA9IDAkLiBXZSBjYW4gc3VtbWFyaXplIGxpa2Ugc286CiQkIFxtYXRocm17SGlnaFwgU2Vuc2l0aXZpdHl9XFwgWSA9IDEgXHVuZGVyc2V0e2ltcGxpZXN94oeSIFxoYXR7WX0gPSAxIFxcICQkCiQkClxtYXRocm17SGlnaFwgU3BlY2lmaWNpdHl9XFwgWSA9IDAgXHVuZGVyc2V0e2ltcGxpZXN94oeSIFxoYXR7WX0gPSAwCiQkCgpUaGVyZSBpcyBhIHNlY29uZCB3YXkgdG8gZGVmaW5lICoqU3BlY2lmaWNpdHkqKjogVGhlIHByb3BvcnRpb24gb2YgKipwb3NpdGl2ZSBwcmVkaWN0aW9ucyoqIHRoYXQgYXJlICoqYWN0dWFsbHkgcG9zaXRpdmUqKihpLmUuIChjb3JyZWN0IHBvc2l0aXZlIHByZWRpY3Rpb25zKSAvIChhbGwgcG9zaXRpdmUgcHJlZGljdGlvbnMpKS4gSW4gdGhpcyBjYXNlIGhpZ2ggU3BlY2lmaWNpdHkgaXMgZGVmaW5lZCBhczogIAokJApcbWF0aHJte0hpZ2hcIFNwZWNpZmljaXR5fVxcIFxoYXR7WX0gPSAxIFx1bmRlcnNldHtpbXBsaWVzfeKHkiBZPTEKJCQKXAoKVG8gZGlmZmVyZW50aWF0ZSBiZXR3ZWVuIHRoZXNlIG1ldHJpY3MsIGVhY2ggb2YgdGhlIGZvdXIgZW50cmllcyBpbiB0aGUgY29uZnVzaW9uIG1hdHJpeCBoYXMgYSB1bmlxdWUgbmFtZS4gCgpgYGB7ciB0YWJsZTIsIGVjaG89RkFMU0V9CmNvbmZfbmFtZXMgPSBtYXRyaXgoYygiVHJ1ZSBQb3NpdGl2ZXMoVFApIiwgIkZhbHNlIE5lZ2F0aXZlcyhGTikiLCAiRmFsc2UgUG9zaXRpdmVzKEZQKSIsICJUcnVlIE5lZ2F0aXZlcyhUTikiKSwgbnJvdyA9IDIsIG5jb2wgPSAyKQpyb3duYW1lcyhjb25mX25hbWVzKSA9IGMoIlByZWRpY3RlZCArIiwgIlByZWRpY3RlZCAtIikKY29sbmFtZXMoY29uZl9uYW1lcykgPSBjKCJBY3R1YWxseSArIiwgIkFjdHVhbGx5IC0iKQpjb25mX25hbWVzCmBgYAogIAoqIFdoZW4gYW4gKipvdXRjb21lKiogaXMgKipwb3NpdGl2ZSoqIGFuZCB3YXMgKipwcmVkaWN0ZWQqKiB0byBiZSAqKnBvc2l0aXZlKio6IFRydWUgUG9zaXRpdmVzIChUUCkKCiogV2hlbiBhbiAqKm91dGNvbWUqKiBpcyAqKm5lZ2F0aXZlKiogYnV0IHdhcyAqKnByZWRpY3RlZCoqIHRvIGJlICoqcG9zaXRpdmUqKjogRmFsc2UgUG9zaXRpdmVzIChGUCkKCiogV2hlbiBhbiAqKm91dGNvbWUqKiBpcyAqKnBvc2l0aXZlKiogYnV0IHdhcyAqKnByZWRpY3RlZCoqIHRvIGJlICoqbmVnYXRpdmUqKjogRmFsc2UgTmVnYXRpdmVzIChGTikKCiogV2hlbiBhbiAqKm91dGNvbWUqKiBpcyAqKm5lZ2F0aXZlKiogYW5kIHdhcyAqKnByZWRpY3RlZCoqIHRvIGJlICoqbmVnYXRpdmUqKjogVHJ1ZSBOZWdhdGl2ZXMgKFROKSAgCgpcCgpXaXRoIHRoZXNlIGRlZmluaXRpb25zLCB3ZSBjYW4gYWNjdXJhdGVseSBxdWFudGlmeSBTZW5zaXRpdml0eSBhbmQgU3BlY2lmaWNpdHk6CgokJCBcbWF0aHJte1NlbnNpdGl2aXR5XzF9PSBcZnJhY3tUUH17KFRQICsgRk4pfSBcXAokJAoKJCQKXG1hdGhybXtTcGVjaWZpY2l0eV8yfT0gXGZyYWN7VE59eyhUTiArIEZQKX0KJCQKCgoKClwKCgpUaGVyZSBpcyBhbm90aGVyIHdheSBvZiBxdWFudGlmeWluZyBTcGVjaWZpY2l0eTogIAokJApcbWF0aHJte1NwZWNpZmljaXR5XzN9PSBcZnJhY3tUUH17KFRQICsgRlApfQokJAoKCiReMSQgJF9cbWF0aHJte1RoaXNcIGZvcm11bGF0aW9uXCBvZlwgU2Vuc2l0aXZpdHlcIGlzXCBhbHNvXCBrbm93blwgYXNcIHRoZVwgXG1hdGhiZntUcnVlXCBQb3NpdGl2ZVwgUmF0ZVwgKFRQUil9XCBvclwgXG1hdGhiZntSZWNhbGx9Ln0kICAKCiReMiQgJF9cbWF0aHJte1RoaXNcIGZvcm11bGF0aW9uXCBvZlwgU3BlY2lmaWNpdHlcIGlzXCBhbHNvXCBrbm93blwgYXNcIHRoZVwgXG1hdGhiZntUcnVlXCBOZWdhdGl2ZVwgUmF0ZVwgKFROUil9Ln0kCgokXjMkICRfXG1hdGhybXtUaGlzXCBmb3JtdWxhdGlvblwgb2ZcIFNwZWNpZmljaXR5XCBpc1wgYWxzb1wga25vd25cIGFzXCB0aGVcIFxtYXRoYmZ7UG9zaXRpdmVcIFByZWRpY3RpdmVcIFZhbHVlXCAoUFBWKX1cIG9yXCBcbWF0aGJme1ByZWNpc2lvbn0ufSQKXApcCgpUbyBoZWxwIGluIHVuZGVyc3RhbmRpbmcgdGhlIGFib3ZlLCBrZWVwIGluIG1pbmQgdGhhdDogIAoKJChUUCArIEZOKSA9IFxtYXRocm17QWxsXCBwb3NpdGl2ZVwgb3V0Y29tZXN9JCAgCiQoVE4gKyBGUCkgPSBcbWF0aHJte0FsbFwgbmVnYXRpdmVcIG91dGNvbWVzfSQgIAokKFRQICsgRlApID0gXG1hdGhybXtBbGxcIHBvc2l0aXZlXCBwcmVkaWN0aW9uc30kICAKXAoKTm90ZSB0aGF0IHVubGlrZSB0aGUgVHJ1ZSBQb3NpdGl2ZSBSYXRlIGFuZCB0aGUgVHJ1ZSBOZWdhdGl2ZSBSYXRlLCAqKlByZWNpc2lvbioqIGlzIGFmZmVjdGVkIGJ5ICoqUHJldmFsZW5jZSoqLiBUaGUgaGlnaGVyIHRoZSBQcmV2YWxlbmNlLCB0aGUgaGlnaGVyIHRoZSBQcmVjaXNpb24uClwKCiMjIyBTdW1tYXJ5IFRhYmxlCgpgYGB7ciBzdW1tYXJ5X3RibCwgZWNobz1GQUxTRX0KTWVhc3VyZSA9IGMoIlNlbnNpdGl2aXR5IiwgIlNwZWNpZmljaXR5IiwgIlNwZWNpZmljaXR5IikKTmFtZV8xID0gYygiVFBSIiwgIlROUiIsICJQUFYiKQpOYW1lXzIgPSBjKCJSZWNhbGwiLCAiMSAtIEZQUiIsICJQcmVjaXNpb24iKQpDYWxjdWxhdGlvbiA9IGMoIlRQIC8gKFRQK0ZOKSIsICJUTiAvIChUTitGUCkiLCAiVFAgLyAoVFArRlApIikKQXNfUHJvYmFiaWxpdHkgPSBjKCJQcihZX2hhdCA9IDEgfCBZID0gMSkiLCAiUHIoWV9oYXQgPSAwIHwgWSA9IDApIiwgIlByKFkgPSAxIHwgWV9oYXQgPSAxKSIpCmRhdGEuZnJhbWUoTWVhc3VyZSwgTmFtZV8xLCBOYW1lXzIsIENhbGN1bGF0aW9uLCBBc19Qcm9iYWJpbGl0eSkKYGBgCgpUUFIgPSBUcnVlIFBvc2l0aXZlIFJhdGUgIApUTlIgPSBUcnVlIE5lZ2F0aXZlIFJhdGUgIApQUFYgPSBQb3NpdGl2ZSBQcmVkaWN0aXZlIFZhbHVlICAKRlBSID0gRmFsc2UgUG9zaXRpdmUgUmF0ZSAoTm90IGNvdmVyZWQgaW4gdGhpcyBsZWN0dXJlKQpcCgojIyMgYGNvbmZ1c2lvbk1hdHJpeCgpYApUaGUgYGNvbmZ1c2lvbk1hdHJpeGAgZnVuY3Rpb24gaW4gdGhlIGBjYXJldGAgcGFja2FnZSBjb21wdXRlcyBhbGwgb2YgdGhlIGFmb3JlbWVudGlvbmVkIG1ldHJpY3Mgb25jZSB3ZSBkZWZpbmUgd2hhdCBvdXIgYWxnb3JpdGhtIHNob3VsZCBjb25zaWRlciB0byBiZSBwb3NpdGl2ZS4gIApUaGUgZnVuY3Rpb24gZXhwZWN0cyBmYWN0b3JzIGFzIGlucHV0cy4gVGhlIGZpcnN0IGZhY3RvciBsZXZlbCBpcyBjb25zaWRlcmVkIHRvIHJlcHJlc2VudCBvdXIgInBvc2l0aXZlIiBvdXRjb21lICRZID0gMSQuIEluIG91ciBleGFtcGxlLCBgZmVtYWxlYCBpcyB0aGUgZmlyc3QgbGV2ZWwuICAKClRoZSB1c2FnZSBvZiBgY29uZnVzaW9uTWF0cml4YCBpcyBhcyBmb2xsb3dzOgoKYGBge3IgY29uZnVzaW9uTWF0cml4fQpjb25mdXNpb25NYXRyaXgoZGF0YSA9IHlfaGF0LCByZWZlcmVuY2UgPSB0ZXN0X3NldCRzZXgpCmBgYAoK</div>
 
 
 
