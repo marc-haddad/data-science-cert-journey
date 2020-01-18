@@ -1,16 +1,22 @@
 ---
 title: "Conditional Probabilities, Conditional Expectations, and Loss Function"
+subtitle: "Machine Learning - Sections 2.2.1 & 2.2.2"
 author: "_Marc Haddad_"
-date: "_`r format(Sys.time(), '%d %B, %Y')`_"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-  pdf_document:
-    latex_engine: xelatex
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  #pdf_document:
+    #latex_engine: xelatex
+    #df_print: kable
 ---
 
+\
 
 > *"The most common reason for not being able to build perfect [predictive] algorithms is that it is impossible"* -Dr. Rafael Irizarry
 
-\
+
 
 \
 
