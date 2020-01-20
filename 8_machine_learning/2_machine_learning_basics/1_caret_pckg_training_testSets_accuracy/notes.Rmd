@@ -1,6 +1,6 @@
 ---
 title: "Caret Package, Training and Test Sets, and Overall Accuracy"
-subtitle: "Machine Learning - Section 2.1.1"
+subtitle: "Machine Learning - Section $2.1.1$"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 

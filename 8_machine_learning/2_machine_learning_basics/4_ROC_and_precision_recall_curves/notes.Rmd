@@ -1,6 +1,6 @@
 ---
 title: "Prevalence in Practice & ROC and Precision-Recall Curves"
-subtitle: "Machine Learning - Sections 2.1.4 & 2.1.5"
+subtitle: "Machine Learning - Sections $2.1.4$ & $2.1.5$"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -14,6 +14,24 @@ output:
 
 \
 
-An algorithm that yields both high Sensitivity and Specificity is **not** necessarily useful in practice.
+## 2.1.4: Prevalence Matters in Practice
+
+An algorithm that yields a high Sensitivity or Specificity is **not** necessarily useful in practice when **prevalence** is close to either $0$ or $1$.  
+\
+
+For example:  
+
+* A doctor that specializes in a rare disease is interested in developing an algorithm that can predict who has the disease. Assume we are tasked with creating the algorithm from data provided by the doctor.  
+* We create an algorithm with **high Sensitivity** which means that *if a patient has the disease, our algorithm is likely to predict its existence correctly.*
+* We also come to the worrying conclusion that the data set provided by the doctor indicates that **$50$%** of patients have the, supposedly rare, disease: $Pr(\hat{Y} = 1) = \frac{1}{2}$.
+* The doctor then explains that what is actually important is the **Precision** of the test: $Pr(Y = 1\ |\ \hat{Y} = 1)$.
+* Using Bayes' theorem, we can actually show a link between both measures:  
+
+$$Pr(Y=1\ |\ \hat{Y} = 1)\ \mathbf{=}\ Pr(\hat{Y} = 1\ |\ Y = 1) \frac{Pr(Y = 1)}{Pr(\hat{Y} = 1)} $$
+
+* The doctor knows that the **Prevalence** is actually $5$ in $1000$ which means that **actual outcome** $Pr(Y = 1)$ is $\frac{1}{200}$.
+* Remembering that our **predicted outcome** $Pr(\hat{Y} = 1)$ is $\frac{1}{2}$, we find that the final fraction in our Bayesian equation above $\frac{Pr(Y = 1)}{Pr(\hat{Y} = 1)}$ is $\frac{\frac{1}{200}}{\frac{1}{2}} = \frac{1}{100}$.
+* Keeping in mind that $Pr(\hat{Y} = 1\ |\ Y = 1)$ is a value between $0$ and $1$: our **Prevalence** of $\frac{1}{100}$ means that our **Precision** $Pr(Y=1\ |\ \hat{Y} = 1)$ is going to be **less than $0.01$**.
+* Thus, our algorithm is useless to the doctor.
 
 

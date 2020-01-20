@@ -1,6 +1,6 @@
 ---
 title: "Confusion Matrix"
-subtitle: "Machine Learning - Section 2.1.2"
+subtitle: "Machine Learning - Section $2.1.2$"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 

@@ -1,6 +1,6 @@
 ---
 title: "Balanced Accuracy and the F1 Score"
-subtitle: "Machine Learning - Section 2.1.3"
+subtitle: "Machine Learning - Section $2.1.3$"
 author: "_Marc Omar Haddad_"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
