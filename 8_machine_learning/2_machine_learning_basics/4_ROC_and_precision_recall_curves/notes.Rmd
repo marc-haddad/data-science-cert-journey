@@ -13,8 +13,35 @@ output:
 ---
 
 \
+```{r dependencies, include=FALSE, results='hide'}
+library(tidyverse)
+library(caret)
+library(dslabs)
+library(ggrepel)
+data(heights)
+set.seed(2, sample.kind = "Rounding")
+options(digits = 3)
+y = heights$sex # Categorical outcome (male or female)
+x = heights$height
+# Var containing index vals
+test_index = createDataPartition(y, times = 1, p = 0.5, list = FALSE)
+# The actual splitting of the dataset by rand. gen. index vals.
+train_set = heights[-test_index, ]
+test_set = heights[test_index, ]
+cutoff = seq(61, 70) # Defining sequence of cutoffs
+accuracy = map_dbl(cutoff, function(x) {
+  y_hat = ifelse(train_set$height > x, "Male", "Female") %>% 
+    factor(levels = levels(test_set$sex))
+  mean(y_hat == train_set$sex)
+})
+best_cutoff = cutoff[which.max(accuracy)]
+y_hat = ifelse(test_set$height > best_cutoff, "Male", "Female") %>%
+  factor(levels = levels(test_set$sex))
+prev = mean(y == "Male")
+```
 
 ## $2.1.4$: Prevalence Matters in Practice
+\
 
 An algorithm that yields a high Sensitivity or Specificity is **not** necessarily useful in practice when **prevalence** is close to either $0$ or $1$.  
 \
@@ -45,6 +72,135 @@ $$Pr(Y=1\ |\ \hat{Y} = 1)\ \mathbf{=}\ Pr(\hat{Y} = 1\ |\ Y = 1) \frac{Pr(Y = 1)
 \
 
 ## $2.1.5$: ROC and Precision-Recall Curves  
+\
 
-When comparing two algorithms like our earlier examples of guessing vs. height cutoff
+We used **accuracy** and **F1 Score** to compare our competing algorithms of guessing vs. height cutoff. We found that our height cutoff algorithm clearly outperformed the other. However, we neglected to test *other* values within our guessing algorithm (we used $p=0.5$). Setting our $p$ to $0.9$, we get a vastly better result with just guessing due to the fact that our data set is biased:  
+
+```{r guess_alg}
+p = 0.9
+y_hat = sample(c("Male", "Female"), length(test_index),
+               replace = TRUE, prob = c(p, 1-p)) %>% 
+  factor(levels = levels(test_set$sex))
+mean(y_hat == test_set$sex)
+```
+
+However, even though we obtained a relatively high accuracy, it was obtained at the cost of lower Sensitivity. The curves below will help us compare the effects of varying values on different algorithms and visually aid us in assessing which one is best.  
+\
+
+### Receiver Operating Characteristic (ROC) Curve
+
+The ROC curve plots **Sensitivity (TPR)** versus **$1$ - Specificity**, also known as the **False Positive Rate (FPR)**.
+
+
+```{r guess_ROC, warning=FALSE}
+set.seed(2, sample.kind = "Rounding")
+p_seq = seq(0, 1, length.out = 10) # Sequence of p's for testing
+
+guessing = map_df(p_seq, function(x) {
+  y_hat = sample(c("Male", "Female"), length(test_index),
+                 replace = TRUE, prob = c(x, 1 - x)) %>% 
+    factor(levels = levels(test_set$sex))
+  list(method = "Guessing",
+       # True Positive Rate AKA Sensitivity
+       TPR = sensitivity(y_hat, test_set$sex),
+       # False Positive Rate AKA 1 - Specificity
+       FPR = 1 - specificity(y_hat, test_set$sex))
+})
+guessing %>% ggplot(aes(FPR, TPR)) +
+  geom_point() +
+  xlab("1 - Specificity") +
+  ylab("Sensitivity") +
+  ggtitle("ROC Curve for 'Guess' Algorithm")
+
+```
+  
+
+The ROC Curve for guessing is always similar to the above plot. A perfect algorithm would immediately go up to $1$ (perfect Sensitivity) and stay there for all values of Specificity.  
+
+\
+
+Similarly, we can construct an ROC Curve for our "Height cutoff" algorithm:
+
+
+```{r hcutoff_alg}
+cutoffs = c(50, seq(60, 75), 80)
+height_cutoff = map_df(cutoffs, function(x) {
+  y_hat = ifelse(test_set$height > x, "Male", "Female") %>% 
+    factor(levels = levels(test_set$sex))
+  list(method = "Height Cutoff",
+       TPR = sensitivity(y_hat, test_set$sex),
+       FPR = 1 - specificity(y_hat, test_set$sex),
+       cutoff = x # We'll be using this later for labeling
+       )
+})
+height_cutoff %>% ggplot(aes(FPR, TPR)) +
+  geom_point() +
+  xlab("1 - Specificity") +
+  ylab("Sensitivity") +
+  ggtitle("ROC Curve for 'Height Cutoff' Algorithm")
+```
+
+\
+
+Plotting both curves together reveals a significant difference between the two algorithms:
+
+```{r both_algs, warning=FALSE}
+bind_rows(guessing, height_cutoff) %>% # Combine results of both algorithms
+  ggplot(aes(FPR, TPR, color = method, label = cutoff)) +
+  geom_point() +
+  geom_line() +
+  xlab("1 - Specificity") +
+  ylab("Sensitivity") +
+  geom_text_repel(nudge_x = 0, nudge_y = 0.01)
+```
+
+\
+
+By plotting both curves together, we can see that the Sensitivity of our Height Cutoff algorithm outperforms the Guessing algorithm for almost all values of Specificity. (Note: it is good practice to label the cutoff values)  
+
+
+The main weakness of the ROC Curve is that it does not account for prevalence and, as such, is incapable of indicating its effect on the data. 
+
+\
+
+### Precision-Recall Curve
+
+The **Precision-Recall Curve** is best used in cases in which prevalence matters. 
+
+```{r precision_recall, warning=FALSE}
+# Guessing Algorithm Results
+guessing = map_df(p_seq, function(x) {
+  y_hat = sample(c("Male", "Female"), length(test_index), replace = TRUE, prob = c(x, 1 - x)) %>% 
+    factor(levels = levels(test_set$sex))
+  list(method = "Guessing",
+       precision = precision(y_hat, test_set$sex),
+       TPR = sensitivity(y_hat, test_set$sex))
+})
+
+# Height Cutoff Algorithm Results
+height_cutoff = map_df(cutoffs, function(x) {
+  y_hat = ifelse(test_set$height > x, "Male", "Female") %>% 
+    factor(levels = levels(test_set$sex))
+  list(method = "Height Cutoff",
+       TPR = sensitivity(y_hat, test_set$sex),
+       precision = precision(y_hat, test_set$sex))
+})
+
+# Combine both results for plotting
+bind_rows(guessing, height_cutoff) %>% 
+  ggplot(aes(TPR, precision, color = method)) +
+  geom_point() +
+  geom_line() +
+  xlab("Recall") + # AKA Sensitivity
+  ylab("Precision")
+
+```
+  
+\
+
+From the above plot we can clearly see that precision for our "Guessing" algorithm is low due to the fact that prevalence is low.  
+
+\
+
+Finally, changing what we designated to be the "Positive" value in our data set ("Male" instead of "Female") **does not** affect ROC Curves but **does** affect our Precision-Recall Curves.
 
