@@ -2,15 +2,18 @@
 title: "Conditional Probabilities, Conditional Expectations, and Loss Function"
 subtitle: "Machine Learning - Sections 2.2.1 & 2.2.2"
 author: "_Marc Haddad_"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: 
+- "Published: 5 January, 2020 <br>"
 output: 
   html_notebook:
     theme: readable
     highlight: zenburn
-  #pdf_document:
-    #latex_engine: xelatex
-    #df_print: kable
+  # pdf_document:
+  #   latex_engine: xelatex
+  #   df_print: kable
 ---
+ <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
+\begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center}
 
 \
 

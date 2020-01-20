@@ -2,7 +2,7 @@
 title: "Confusion Matrix"
 subtitle: "Machine Learning - Section $2.1.2$"
 author: "_Marc Omar Haddad_"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "Published: 6 January, 2020"
 output: 
   html_notebook:
     theme: readable
@@ -11,6 +11,8 @@ output:
     #latex_engine: xelatex
     #df_print: kable
 ---
+<strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong>
+<!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
 \
 
 ```{r dependencies, include=FALSE, results='hide'}

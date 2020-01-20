@@ -2,7 +2,7 @@
 title: "Prevalence in Practice & ROC and Precision-Recall Curves"
 subtitle: "Machine Learning - Sections $2.1.4$ & $2.1.5$"
 author: "_Marc Omar Haddad_"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "Published: 20 January, 2020 <br>"
 output:
   html_notebook:
     theme: readable
@@ -11,7 +11,8 @@ output:
     #latex_engine: xelatex
     #df_print: kable
 ---
-
+<!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+<!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
 \
 ```{r dependencies, include=FALSE, results='hide'}
 library(tidyverse)
