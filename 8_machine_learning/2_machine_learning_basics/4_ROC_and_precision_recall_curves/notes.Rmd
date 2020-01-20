@@ -1,0 +1,19 @@
+---
+title: "Prevalence in Practice & ROC and Precision-Recall Curves"
+subtitle: "Machine Learning - Sections 2.1.4 & 2.1.5"
+author: "_Marc Omar Haddad_"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  #pdf_document:
+    #latex_engine: xelatex
+    #df_print: kable
+---
+
+\
+
+An algorithm that yields both high Sensitivity and Specificity is **not** necessarily useful in practice.
+
+
