@@ -85,7 +85,7 @@ $$\frac{1}{\frac{\beta^2}{1+\beta^2} \frac{1}{\mathrm{recall}}+ \frac{1}{1+\beta
 
 In the `caret` package, the function `F_meas` returns a summary of the F1 Score, with $\beta$ defaulting to $1$.  
 
-Knowing this, we can now reconstruct our earlier predictive algorithm (see Sections 2.1.1 and 2.1.2) to **maximize our F1 Score**:  
+Knowing this, we can now reconstruct our earlier predictive algorithm (see Sections $2.1.1$ and $2.1.2$) to **maximize our F1 Score**:  
 
 ```{r f_1}
 cutoff = seq(61, 70)
