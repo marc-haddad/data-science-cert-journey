@@ -1547,6 +1547,105 @@ window.initializeSourceEmbed = function(filename) {
 </script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -1734,14 +1833,56 @@ summary {
 
 <!-- rnb-text-begin -->
 <!-- FOR UPDATES -->
-<p><!-- Uncomment if output = html_notebook: --> <!--  <center><strong>Updated: 09 February, 2020</strong></center> --></p>
-<p><!-- Uncomment if output = pdf_document: --> <!-- \begin{center}Updated: 09 February, 2020\end{center} --></p>
+<!-- Uncomment if output = html_notebook: -->
+<center>
+<strong>Updated: 10 February, 2020</strong>
+</center>
+<p><!-- Uncomment if output = pdf_document: --> <!-- \begin{center}Updated: 10 February, 2020\end{center} --></p>
 <!-- FOR UPDATES -->
 <p><br />
 </p>
 <!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+<p><br />
+</p>
+<p><strong>Linear Regression</strong> can be considered to be a form of Machine Learning. Although it is too rigid to be useful in general, it can be very effective in certain cases. It is also a baseline approach to Machine Learning in that it is often used if more complex methods are impractical.</p>
+<p><br />
+</p>
+<div id="linking-linear-regression-and-machine-learning" class="section level3">
+<h3>Linking Linear Regression and Machine Learning</h3>
+<p>We can use Galton’s data set to exhibit the link between Linear Regression and Machine Learning.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShIaXN0RGF0YSlcblxuZ2FsdG9uX2hlaWdodHMgPSBHYWx0b25GYW1pbGllcyAlPiUgXG4gIGZpbHRlcihjaGlsZE51bSA9PSAxICYgZ2VuZGVyID09IFwibWFsZVwiKSAlPiUgXG4gIHNlbGVjdChmYXRoZXIsIGNoaWxkSGVpZ2h0KSAlPiUgXG4gIHJlbmFtZShzb24gPSBjaGlsZEhlaWdodClcblxuYGBgIn0= -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(HistData)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">galton_heights =<span class="st"> </span>GaltonFamilies <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(childNum <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>gender <span class="op">==</span><span class="st"> &quot;male&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(father, childHeight) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">son =</span> childHeight)</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Our task is to build a Machine Learning algorithm that predicts the <code>son</code>’s height <span class="math inline">\(Y\)</span> using the <code>father</code>’s height <span class="math inline">\(X\)</span>.</p>
+<p><br />
+</p>
+<p>First, we generate our <code>test_set</code> and <code>train_set</code>.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueSA9IGdhbHRvbl9oZWlnaHRzJHNvblxudGVzdF9pbmRleCA9IGNyZWF0ZURhdGFQYXJ0aXRpb24oeSwgdGltZXMgPSAxLCBwID0gMC41LCBsaXN0ID0gRkFMU0UpXG5cbnRyYWluX3NldCA9IGdhbHRvbl9oZWlnaHRzICU+JSBzbGljZSgtdGVzdF9pbmRleClcbnRlc3Rfc2V0ID0gZ2FsdG9uX2hlaWdodHMgJT4lIHNsaWNlKHRlc3RfaW5kZXgpXG5cbmBgYCJ9 -->
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">y =<span class="st"> </span>galton_heights<span class="op">$</span>son</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">test_index =<span class="st"> </span><span class="kw">createDataPartition</span>(y, <span class="dt">times =</span> <span class="dv">1</span>, <span class="dt">p =</span> <span class="fl">0.5</span>, <span class="dt">list =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">train_set =<span class="st"> </span>galton_heights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="op">-</span>test_index)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">test_set =<span class="st"> </span>galton_heights <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(test_index)</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To see if our eventual algorithm performs better than merely guessing, we create an algorithm that estimates <code>son</code> by simply finding the average of all <code>son</code> heights in our <code>train_set</code>.</p>
+<!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGluZWFyIFJlZ3Jlc3Npb24gZm9yIFByZWRpY3Rpb24iCnN1YnRpdGxlOiAiTWFjaGluZSBMZWFybmluZyAtIFNlY3Rpb24gJDMuMS4xJCIKYXV0aG9yOiAiX01hcmMgT21hciBIYWRkYWRfIgpkYXRlOiAiUHVibGlzaGVkOiA5IEZlYnJ1YXJ5LCAyMDIwIDxicj4iCm91dHB1dDoKICBodG1sX25vdGVib29rOgogICAgdGhlbWU6IHJlYWRhYmxlCiAgICBoaWdobGlnaHQ6IHplbmJ1cm4KICAjcGRmX2RvY3VtZW50OgogICAgI2xhdGV4X2VuZ2luZTogeGVsYXRleAogICAgI2RmX3ByaW50OiBrYWJsZQotLS0KPCEtLSBGT1IgVVBEQVRFUyAtLT4KICAKICA8IS0tIFVuY29tbWVudCBpZiBvdXRwdXQgPSBodG1sX25vdGVib29rOiAtLT4KICAgIDwhLS0gIDxjZW50ZXI+PHN0cm9uZz5VcGRhdGVkOiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCLCAlWScpYDwvc3Ryb25nPjwvY2VudGVyPiAtLT4KICAKICA8IS0tIFVuY29tbWVudCBpZiBvdXRwdXQgPSBwZGZfZG9jdW1lbnQ6IC0tPgogICAgPCEtLSBcYmVnaW57Y2VudGVyfVVwZGF0ZWQ6IGByIGZvcm1hdChTeXMudGltZSgpLCAnJWQgJUIsICVZJylgXGVuZHtjZW50ZXJ9IC0tPgoKPCEtLSBGT1IgVVBEQVRFUyAtLT4gICAgCgpcCmBgYHtyIGRlcGVuZGVuY2llcywgaW5jbHVkZT1GQUxTRSwgcmVzdWx0cz0naGlkZSd9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGNhcmV0KQpsaWJyYXJ5KGRzbGFicykKbGlicmFyeShnZ3JlcGVsKQpgYGA=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGluZWFyIFJlZ3Jlc3Npb24gZm9yIFByZWRpY3Rpb24iCnN1YnRpdGxlOiAiTWFjaGluZSBMZWFybmluZyAtIFNlY3Rpb24gJDMuMS4xJCIKYXV0aG9yOiAiX01hcmMgT21hciBIYWRkYWRfIgpkYXRlOiAiUHVibGlzaGVkOiA5IEZlYnJ1YXJ5LCAyMDIwIDxicj4iCm91dHB1dDoKICBodG1sX25vdGVib29rOgogICAgdGhlbWU6IHJlYWRhYmxlCiAgICBoaWdobGlnaHQ6IHplbmJ1cm4KICAjcGRmX2RvY3VtZW50OgogICAgI2xhdGV4X2VuZ2luZTogeGVsYXRleAogICAgI2RmX3ByaW50OiBrYWJsZQotLS0KPCEtLSBGT1IgVVBEQVRFUyAtLT4KICAKICA8IS0tIFVuY29tbWVudCBpZiBvdXRwdXQgPSBodG1sX25vdGVib29rOiAtLT4KICAgICA8Y2VudGVyPjxzdHJvbmc+VXBkYXRlZDogYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWA8L3N0cm9uZz48L2NlbnRlcj4KICAKICA8IS0tIFVuY29tbWVudCBpZiBvdXRwdXQgPSBwZGZfZG9jdW1lbnQ6IC0tPgogICAgPCEtLSBcYmVnaW57Y2VudGVyfVVwZGF0ZWQ6IGByIGZvcm1hdChTeXMudGltZSgpLCAnJWQgJUIsICVZJylgXGVuZHtjZW50ZXJ9IC0tPgoKPCEtLSBGT1IgVVBEQVRFUyAtLT4gICAgCgpcCmBgYHtyIGRlcGVuZGVuY2llcywgaW5jbHVkZT1GQUxTRSwgcmVzdWx0cz0naGlkZSd9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGNhcmV0KQpsaWJyYXJ5KGRzbGFicykKbGlicmFyeShnZ3JlcGVsKQpgYGAKClwKCioqTGluZWFyIFJlZ3Jlc3Npb24qKiBjYW4gYmUgY29uc2lkZXJlZCB0byBiZSBhIGZvcm0gb2YgTWFjaGluZSBMZWFybmluZy4gQWx0aG91Z2ggaXQgaXMgdG9vIHJpZ2lkIHRvIGJlIHVzZWZ1bCBpbiBnZW5lcmFsLCBpdCBjYW4gYmUgdmVyeSBlZmZlY3RpdmUgaW4gY2VydGFpbiBjYXNlcy4gSXQgaXMgYWxzbyBhIGJhc2VsaW5lIGFwcHJvYWNoIHRvIE1hY2hpbmUgTGVhcm5pbmcgaW4gdGhhdCBpdCBpcyBvZnRlbiB1c2VkIGlmIG1vcmUgY29tcGxleCBtZXRob2RzIGFyZSBpbXByYWN0aWNhbC4KClwKCiMjIyBMaW5raW5nIExpbmVhciBSZWdyZXNzaW9uIGFuZCBNYWNoaW5lIExlYXJuaW5nCiAgCldlIGNhbiB1c2UgR2FsdG9uJ3MgZGF0YSBzZXQgdG8gZXhoaWJpdCB0aGUgbGluayBiZXR3ZWVuIExpbmVhciBSZWdyZXNzaW9uIGFuZCBNYWNoaW5lIExlYXJuaW5nLgoKCmBgYHtyIGdhbHRvbi1zZXR1cH0KbGlicmFyeShIaXN0RGF0YSkKCmdhbHRvbl9oZWlnaHRzID0gR2FsdG9uRmFtaWxpZXMgJT4lIAogIGZpbHRlcihjaGlsZE51bSA9PSAxICYgZ2VuZGVyID09ICJtYWxlIikgJT4lIAogIHNlbGVjdChmYXRoZXIsIGNoaWxkSGVpZ2h0KSAlPiUgCiAgcmVuYW1lKHNvbiA9IGNoaWxkSGVpZ2h0KQoKYGBgCgoKT3VyIHRhc2sgaXMgdG8gYnVpbGQgYSBNYWNoaW5lIExlYXJuaW5nIGFsZ29yaXRobSB0aGF0IHByZWRpY3RzIHRoZSBgc29uYCdzIGhlaWdodCAkWSQgdXNpbmcgdGhlIGBmYXRoZXJgJ3MgaGVpZ2h0ICRYJC4gIAoKXAoKRmlyc3QsIHdlIGdlbmVyYXRlIG91ciBgdGVzdF9zZXRgIGFuZCBgdHJhaW5fc2V0YC4KCmBgYHtyIHRlc3RfdHJhaW59CnkgPSBnYWx0b25faGVpZ2h0cyRzb24KdGVzdF9pbmRleCA9IGNyZWF0ZURhdGFQYXJ0aXRpb24oeSwgdGltZXMgPSAxLCBwID0gMC41LCBsaXN0ID0gRkFMU0UpCgp0cmFpbl9zZXQgPSBnYWx0b25faGVpZ2h0cyAlPiUgc2xpY2UoLXRlc3RfaW5kZXgpCnRlc3Rfc2V0ID0gZ2FsdG9uX2hlaWdodHMgJT4lIHNsaWNlKHRlc3RfaW5kZXgpCgpgYGAKClRvIHNlZSBpZiBvdXIgZXZlbnR1YWwgYWxnb3JpdGhtIHBlcmZvcm1zIGJldHRlciB0aGFuIG1lcmVseSBndWVzc2luZywgd2UgY3JlYXRlIGFuIGFsZ29yaXRobSB0aGF0IGVzdGltYXRlcyBgc29uYCBieSBzaW1wbHkgZmluZGluZyB0aGUgYXZlcmFnZSBvZiBhbGwgYHNvbmAgaGVpZ2h0cyBpbiBvdXIgYHRyYWluX3NldGAuCgoKCgoKCgoKCgoKCgoK</div>
 
 
 
