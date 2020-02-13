@@ -1,23 +1,23 @@
 ---
-title: "Linear Regression for Prediction"
-subtitle: "Machine Learning - Section $3.1.1$"
+title: "Linear Regression for Prediction & the `predict` Function"
+subtitle: "Machine Learning - Sections $3.1.1$ & $3.1.2$"
 author: "_Marc Omar Haddad_"
 date: "Published: 9 February, 2020 <br>"
 output:
-  html_notebook:
-    theme: readable
-    highlight: zenburn
-  #pdf_document:
-    #latex_engine: xelatex
-    #df_print: kable
+  # html_notebook:
+  #   theme: readable
+  #   highlight: zenburn
+  pdf_document:
+    latex_engine: xelatex
+    df_print: kable
 ---
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
+     <!-- <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
   
   <!-- Uncomment if output = pdf_document: -->
-    <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
+    \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center}
 
 <!-- FOR UPDATES -->    
 
@@ -27,6 +27,8 @@ library(tidyverse)
 library(caret)
 library(dslabs)
 library(ggrepel)
+options(digits = 2)
+set.seed(2, sample.kind = "Rounding")
 ```
 
 \
@@ -66,10 +68,43 @@ test_set = galton_heights %>% slice(test_index)
 
 ```
 
-To see if our eventual algorithm performs better than merely guessing, we create an algorithm that estimates `son` by simply finding the average of all `son` heights in our `train_set`.
+To see if our eventual algorithm performs better than merely guessing, we create an algorithm that estimates `son` by simply finding the average of all `son` heights in our `train_set`, and calculating for $R^2$ Loss.
+
+```{r avg}
+avg = mean(train_set$son)
+avg
+mean((avg - test_set$son)^2) # R^2 Loss
+```
+
+Our goal is to construct an algorithm that is better than the one above.
+
+We know from our earlier lesson on Linear Regression that if both our variables $(X,Y)$ follow a **bivariate normal distribution**, the **Conditional Expectation** is *equal* to the **Regression Line**.
+$$
+f(x) = \mathrm{E}(Y\ |\ X = x) = \beta_0\ +\ \beta_1x
+$$
+
+In `R`, we can calculate the values $\beta_0$ and $\beta_1$ with the following simple formula:
+
+```{r lm}
+fit = lm(son ~ father, data = train_set)
+fit$coef
+```
+
+This gives us an estimate of the Conditional Expectation:  
+
+$\hat{f}(x) =$ `r fit$coef[1]` $+$ `r fit$coef[2]` $x$  
+
+With $x$ being equal to `father` height.
 
 
+Now we assess our function to see if we've improved upon our initial "estimate" function.
 
+```{r loss_func}
+y_hat = fit$coef[1] + fit$coef[2] * test_set$father
+mean((y_hat - test_set$son)^2)
+```
+
+As we can see, our algorithm does indeed perform better than simply estimating the son's height as evidenced by our lower $R^2$ Loss value.
 
 
 
