@@ -4,20 +4,20 @@ subtitle: "Machine Learning - Sections $3.1.1$ & $3.1.2$"
 author: "_Marc Omar Haddad_"
 date: "Published: 9 February, 2020 <br>"
 output:
-  # html_notebook:
-  #   theme: readable
-  #   highlight: zenburn
-  pdf_document:
-    latex_engine: xelatex
-    df_print: kable
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  # pdf_document:
+  #   latex_engine: xelatex
+  #   df_print: kable
 ---
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-     <!-- <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
-    \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center}
+    <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
 
 <!-- FOR UPDATES -->    
 
@@ -28,7 +28,7 @@ library(caret)
 library(dslabs)
 library(ggrepel)
 options(digits = 2)
-set.seed(2, sample.kind = "Rounding")
+set.seed(1, sample.kind = "Rounding")
 ```
 
 \
@@ -92,7 +92,7 @@ fit$coef
 
 This gives us an estimate of the Conditional Expectation:  
 
-$\hat{f}(x) =$ `r fit$coef[1]` $+$ `r fit$coef[2]` $x$  
+$$\hat{f}(x) = \mathrm{`r fit$coef[1]`} + \mathrm{`r fit$coef[2]`}x$$
 
 With $x$ being equal to `father` height.
 
@@ -104,11 +104,23 @@ y_hat = fit$coef[1] + fit$coef[2] * test_set$father
 mean((y_hat - test_set$son)^2)
 ```
 
-As we can see, our algorithm does indeed perform better than simply estimating the son's height as evidenced by our lower $R^2$ Loss value.
+As we can see, our algorithm does indeed perform better than simply estimating the son's height, as evidenced by our lower $R^2$ Loss value.
 
+\
+  
+### The `predict` Function
 
+The `predict` function takes two arguments: a fitted object from functions like `lm` and `glm`, and a dataframe with our new predictors for which we want to predict; `predict` then **returns a prediction**.
+\
 
+Instead of having to write out the formula for our earlier regression line, we can use `predict`:
 
+```{r predict}
+y_hat = predict(fit, test_set)
+mean((y_hat - test_set$son)^2) # This returns the same R^2 from earlier
+```
+
+One caveat with `predict` is that it does not necessarily always return objects of the same type. In these scenarios it is useful to look at the help file for the type of fitted object that is being used. For example: `?predict.lm` and `?predict.glm`. This will be useful in the future when we use functions such as k-NN (`?predict.knn`).
 
 
 
