@@ -29,3 +29,87 @@ library(dslabs)
 library(ggrepel)
 ```
 
+The regression approach discussed in previous lessons can also be applied to Categorical Data.  
+```{r init, warning=FALSE, results='hide'}
+data("heights")
+y = heights$height
+set.seed(2, sample.kind = "Rounding")
+
+test_index = createDataPartition(y, times = 1, p = 0.5, list = FALSE)
+train_set = heights %>% slice(-test_index)
+test_set = heights %>% slice(test_index)
+
+```
+
+We will define the outcome as $Y = 1$ for `female`, and $Y = 0$ for `male`, and with feature $X =$`height`. With this definition we are interested in the **Conditional Probability of being `female` when given `height`**; represented mathematically as:
+$$ \mathrm{Pr}(Y = 1\ |\ X = x) $$
+
+So, we ask ourselves: *What is the **conditional probability of being female** if you are **66 inches** tall? *
+
+We can calculate the probability by simply rounding `height` entries that are near $66$ inches to $66$, and then calculating the proportion of females.
+
+```{r fem_prop}
+train_set %>% 
+  filter(height == round(66)) %>% 
+  summarize(`Conditional Prob. of being Female` = mean(sex == "Female"))
+```
+
+The Conditional Probability of being `female` given a `height` of $66$ inches is $21.4$%.
+
+\newpage
+
+Now we will repeat the same exercise for multiple values of $X$.  
+
+```{r multi_X_prob}
+X = seq(60, 76, 1)
+
+proportions = map_dbl(X, function(x) {
+  train_set %>% 
+    filter(height == round(x)) %>% 
+    summarize(proportion = mean(sex == "Female")) %>% 
+    .$proportion
+})
+
+qplot(X, proportions)
+
+```
+
+Since the results of the above plot appear to be linear, we can try regression.
+
+Reminder: When using regression we assume that **Conditional Probability** can be *expressed* as a **linear function**:
+$$ p(x) =\ \mathrm{Pr}(Y=1\ |\ X=x)\ = \beta_0 + \beta_1x $$
+
+We plug in our values into the `lm()` function to yield an estimate of $\beta_0$ and $\beta_1$.
+
+```{r betas}
+lm_fit = mutate(train_set, y = as.numeric(sex == "Female")) %>% 
+  lm(y ~ height, data = .)
+lm_fit$coefficients
+```
+
+Now that we have our estimates, we can extract an actual prediction. The estimate of our Conditional Probability is:
+$$ \hat{p}(x)=\hat{\beta_0} + \hat{\beta_1}x $$
+
+Using this formula, we form a prediction by defining a **Decision Rule**. In this case our Decision Rule is:  
+
+
+**Predict `female` if \ $\hat{p}(x) > 0.5$**. 
+
+
+We can then use the `confusionMatrix()` function to assess our model.
+
+```{r lm_prediction}
+p_hat = predict(lm_fit, test_set)
+y_hat = ifelse(p_hat > 0.5, "Female", "Male") %>% factor()
+confusionMatrix(y_hat, test_set$sex)
+```
+
+
+
+
+
+
+
+
+
+
