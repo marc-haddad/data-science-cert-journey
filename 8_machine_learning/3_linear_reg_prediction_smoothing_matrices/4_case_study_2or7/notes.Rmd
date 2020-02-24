@@ -14,7 +14,7 @@ output:
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-    <!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
     <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
@@ -28,6 +28,116 @@ library(caret)
 library(dslabs)
 library(ggrepel)
 ```
+
+\
+
+> _In the simple examples we've examined up to now, we only had one predictor. We actually do not consider these machine learning challenges, which are characterized by having many predictors._  
+>
+> --- Dr. Rafael Irizarry
+
+There are $784$ predictors/features in a digit-reading machine learning algorithm. But for this case study we will select a subset of the aforementioned predictors. This subcategory will consist of **$\mathbf{2}$ predictors** and **$\mathbf{2}$ categories**.
+
+Our goal for this lesson: Build an algorithm to determine if a digit is $2$ or $7$ (our $2$ categories) from predictors. Our $2$ predictors will be: 
+
+1. **The proportion of dark pixels in upper-left quadrant $X_1$**.
+
+2. **The proportion of dark pixels in lower-right quadrant $X_2$**.
+
+We will use a random sample of $1,000$ digits from the $60,000$ digits in our training set. $500$ digits will be allocated to our custom **training set** and $500$ digits will be allocated to our custom **test set**.  
+These sets can be accessed within the `dslabs` package by running `data("mnist_27")`.
+
+\newpage
+
+First, we plot our two predictors from the data to explore it. We will use colors to denote labels.
+
+```{r predictor_plot}
+data("mnist_27")
+
+data = mnist_27$train %>% drop_na()
+data %>% ggplot(aes(x_1, x_2, color = y)) + geom_point()
+```
+
+
+We can clearly see some patterns in the above plot:
+
+* $7$'s are associated with large black values in the upper-left quadrant (approx. $X_1 >= 0.3$).
+
+* $2$'s are associated with mid-range black values in the lower-right quadrant (approx. $0.2 < X_2 < 0.35$).
+
+\
+
+In this case study, we will attempt to fit a logistic regression model to our data.
+
+\newpage
+
+\
+
+
+### Mathematically Expressing Logistic Regression
+
+
+We will assume that "$7$" is the "positive" outcome (i.e. $Y = 1$).
+
+\
+
+Our model can be expressed mathematically like so:
+
+
+$$
+\begin{aligned}
+g\bigl\{p(x_1, x_2)\bigr\} &= g\Bigl\{ \mathrm{Pr}\bigl(Y=1\ |\ X_1 = x_1,\ X_2 = x_2\bigr) \Bigr\} \\ 
+&= \beta_0 + \beta_1x_1 + \beta_2x_2 \\
+\end{aligned}
+$$
+
+\
+
+Or, alternatively:
+
+$$
+\begin{aligned}
+p(x_1, x_2) &= \mathrm{Pr}\bigl(Y=1\ |\ X_1 = x_1,\ X_2 = x_2\bigr) \\ 
+&= g^{-1}\bigl(\beta_0 + \beta_1x_1 + \beta_2x_2\bigr) \\
+\end{aligned}
+$$
+
+\
+
+With $g^{-1}(x)$ being the inverse of the logistic function $g(x)$:
+$$
+\begin{aligned}
+g(x) &= \log{\frac{x}{1 - x}} \\ \\
+g^{-1}(x) &= \frac{\exp(x)}{1 + \exp(x)} \\
+\end{aligned}
+$$
+
+
+In simple english,
+
+First method:
+
+- The **logistic transformation** ($\mathbf{g\{\}}$) of the **probability** of the **outcome being "$\mathbf{7}$"** ($\mathbf{Y = 1}$) *given*:
+
+  - The black value in the upper-left quadrant ($\mathbf{x_1}$) *and* 
+  
+  - The black value in the lower-right quadrant ($\mathbf{x_2}$)
+
+- Is *equal to* the **linear function** $\beta_0 + \beta_1x_1 + \beta_2x_2$
+
+\
+
+Alternative method:
+
+- The **probability** of the **outcome being "$\mathbf{7}$"** ($\mathbf{Y = 1}$) *given*:
+
+  - The black value in the upper-left quadrant ($\mathbf{x_1}$) *and* 
+  
+  - The black value in the lower-right quadrant ($\mathbf{x_2}$)
+
+- Is *equal to* the **inverse logistic transformation** ($\mathbf{g^{-1}\{\}}$) of the **linear function** $\beta_0 + \beta_1x_1 + \beta_2x_2$
+
+
+
 
 
 
