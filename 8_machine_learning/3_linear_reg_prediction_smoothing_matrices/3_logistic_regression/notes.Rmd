@@ -14,7 +14,7 @@ output:
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-    <!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
     <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
@@ -88,7 +88,7 @@ Since `glm()` is more generalized than `lm()`, we are required to specify our de
 
 \
 
-Simalarly to our linear regression model we can obtain predictions with the `predict()` function.
+Similarly to our linear regression model we can obtain predictions with the `predict()` function.
 
 ```{r glm_predict}
 p_hat_logit = predict(glm_fit, newdata = test_set, type = "response")
@@ -97,8 +97,58 @@ p_hat_logit = predict(glm_fit, newdata = test_set, type = "response")
 
 \
 
+We can see how well our new model `p_hat_logit` fits by plotting it against our actual Conditional Probabilities (i.e. the proportions of `female` to `male` in our data set for each rounded height).
 
+```{r glm_fit_plot, echo=FALSE, message=FALSE, warning=FALSE}
+glm_fit2 = train_set %>% 
+  mutate(y = as.numeric(sex == "Female")) %>% 
+  glm(y ~ height, data = ., family = "binomial") 
+height_seq2 = seq(60, 76, 0.01)
+p_hat_logit2 = predict(glm_fit2, list(height = height_seq2), type = "response")
+plot(X, proportions, pch = 16)
+lines(height_seq2, p_hat_logit2, lty = 2)
+```
 
+As we can clearly see, this is a much better fit than our previous linear curve (see section 3.1.3 notes).
+
+\
+
+Now let's assess our trained algorithm by comparing the predictions to our `test_set`.
+
+```{r y_hat_logit}
+
+y_hat_logit = ifelse(p_hat_logit > 0.5, "Female", "Male") %>% factor()
+
+confusionMatrix(y_hat_logit, test_set$sex)
+
+```
+
+Though our new model accuracy ($0.7985$) is slightly higher than our previously obtained accuracy of $0.7852$, our new model does not improve much upon our previous linear model. This is due to the fact that our **Decision Rule**— predicting `female` if our estimated conditional probability is greater than $0.5$— results in similar prediction regions. This is illustrated in the graph below.
+
+```{r log_lin_lines}
+height_seq2 = seq(60, 76, 0.01) # Define new height_seq w/ small intervals.
+
+# Re-predict cond. probs. for each reg. type w/ new height_seq.
+p_hat_logit2 = predict(glm_fit2, list(height = height_seq2), type = "response")
+p_hat2 = predict(lm_fit, list(height = height_seq2))
+
+df_wide = data.frame(height = height_seq2, logistic = p_hat_logit2, linear = p_hat2)
+
+# Convert from wide-form to long-form data for ggplot.
+df_long = gather(df_wide, reg_type, reg_val, logistic:linear, factor_key = TRUE)
+
+df_long %>% ggplot(aes(height, reg_val, color = reg_type)) +
+  geom_line() +
+  geom_hline(yintercept = 0.5, lty = 2) +
+  labs(y = "Proportions (i.e. Cond. Probs.)", x = "Height", color = "Regression Type") +
+  scale_y_continuous(breaks = seq(-0.2, 0.8, 0.1))
+```
+
+Both types of regression provide an **estimate for the Conditional Expectation**; in binary data, this conditional expectation is **equivalent to Conditional Probability**.
+
+\
+
+It must be noted, however, that both logistic and linear regression are not the best approaches in more complex Machine Learning algorithms due to their rigidity. More appropriate techniques (to be learned in later sections) allow for more flexibility and are primarily **approaches to *estimating* Conditional Probabilities and/or Conditional Expectations**.
 
 
 
