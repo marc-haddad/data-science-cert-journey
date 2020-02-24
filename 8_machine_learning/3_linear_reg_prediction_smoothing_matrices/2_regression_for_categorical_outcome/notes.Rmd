@@ -14,7 +14,7 @@ output:
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-    <!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
     <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
@@ -27,6 +27,32 @@ library(tidyverse)
 library(caret)
 library(dslabs)
 library(ggrepel)
+data("heights")
+y = heights$height
+set.seed(2, sample.kind = "Rounding")
+
+test_index = createDataPartition(y, times = 1, p = 0.5, list = FALSE)
+train_set = heights %>% slice(-test_index)
+test_set = heights %>% slice(test_index)
+
+height_seq2 = seq(60, 76, 0.01) # Define new height_seq w/ small intervals.
+glm_fit2 = train_set %>% 
+  mutate(y = as.numeric(sex == "Female")) %>% 
+  glm(y ~ height, data = ., family = "binomial") 
+height_seq2 = seq(60, 76, 0.01)
+p_hat_logit2 = predict(glm_fit2, list(height = height_seq2), type = "response")
+
+lm_fit = mutate(train_set, y = as.numeric(sex == "Female")) %>% 
+  lm(y ~ height, data = .)
+
+# Re-predict cond. probs. for each reg. type w/ new height_seq.
+p_hat_logit2 = predict(glm_fit2, list(height = height_seq2), type = "response")
+p_hat2 = predict(lm_fit, list(height = height_seq2))
+
+df_wide = data.frame(height = height_seq2, logistic = p_hat_logit2, linear = p_hat2)
+
+# Convert from wide-form to long-form data for ggplot.
+df_long = gather(df_wide, reg_type, reg_val, logistic:linear, factor_key = TRUE)
 ```
 
 The regression approach discussed in previous lessons can also be applied to Categorical Data.  
@@ -40,6 +66,7 @@ train_set = heights %>% slice(-test_index)
 test_set = heights %>% slice(test_index)
 
 ```
+
 
 We will define the outcome as $Y = 1$ for `female`, and $Y = 0$ for `male`, and with feature $X =$`height`. With this definition we are interested in the **Conditional Probability of being `female` when given `height`**; represented mathematically as:
 $$ \mathrm{Pr}(Y = 1\ |\ X = x) $$
@@ -89,6 +116,15 @@ lm_fit$coefficients
 
 Now that we have our estimates, we can extract an actual prediction. The estimate of our Conditional Probability is:
 $$ \hat{p}(x)=\hat{\beta_0} + \hat{\beta_1}x $$
+
+We can visualize our **Conditional Expectations / Conditional Probabilities** by plugging the values of `lm_fit$coefficients` into the above function and plotting the resulting line.
+
+```{r linear_plot, echo=FALSE}
+plot(X, proportions, pch = 16)
+lines(height_seq2, p_hat2, lty = 2)
+```
+
+
 
 Using this formula, we form a prediction by defining a **Decision Rule**. In this case our Decision Rule is:  
 
