@@ -162,5 +162,109 @@ confusionMatrix(y_hat, mnist_27$test$y)
 
 As we can see in the `confusionMatrix()` results, we obtained an accuracy of $\mathrm{`r confusionMatrix(y_hat, mnist_27$test$y)$overall[["Accuracy"]]`}$. 
 
+Pretty good, but we can do better.
+
+\
+
+
+### Comparing Estimates with True Conditional Probabilities
+
+\
+
+#### But First, Some Considerations
+
+It must be noted, however, that contrary to data sets we use in practice, *this* particular data set's **true conditional probability is _known_**. We know the true conditional probability because this example was constructed utilizing the entire set of $60,000$ digits. These $60,000$ digits were used to extract the true conditional probability $p(x_1,x_2)$. 
+
+The true conditional probability is included in our case study so we can **compare our estimates to it**, which allows us to assess different algorithms' limitations.
+
+\
+
+#### Plotting the True Conditional Probability
+
+The `ggplot` function `geom_raster()` is a great tool to visualize our true conditional probability:
+
+```{r true_cond_raster}
+mnist_27$true_p %>% ggplot(aes(x_1, x_2, fill = p)) +
+  geom_raster() +
+  ggtitle("True Conditional Probability Plot")
+```
+
+To further improve this plot we will choose different colors and draw a line that separates the areas in which the conditional probabilities are higher and lower than $0.5$:
+
+```{r true_cond_raster_improved}
+mnist_27$true_p %>% ggplot(aes(x_1, x_2, z = p, fill = p)) +
+  geom_raster() +
+  scale_fill_gradientn(colors = c("#F8766D", "white", "#00BFC4")) +
+  stat_contour(breaks = c(0.5), color = "black") +
+  ggtitle("True Conditional Probability Plot - Improved")
+
+```
+
+\
+
+#### The Limitations of Logistic Regression
+
+The inflexibility of logistic regression is apparent when comparing its estimated conditional probability plot with the actual conditional probability plot.
+
+
+First, we must compute the boundary that divides the values of $x_1$ and $x_2$ that make the estimated conditional probability higher and lower than $0.5$. In other words, our calculated boundary will reflect the conditional probability $\hat{p}(x_1, x_2)$ of being equal to $0.5$.
+
+Recall that our plot consists of $x_2$ as the **y-axis** and $x_1$ as the **x-axis**. So, in order to plot our logistic regression curve, we need to **express $x_2$ in terms of $x_1$**. Mathematically done like this:
+
+$$
+p(x_1, x_2) = g^{-1}\bigl(\hat{\beta}_0 + \hat{\beta}_1x_1 + \hat{\beta}_2x_2\bigr) = 0.5 \implies \\
+\hat{\beta}_0 + \hat{\beta}_1x_1 + \hat{\beta}_2x_2 = g(0.5) = 0 \implies \\
+x_2 = \frac{-\hat{\beta}_0\ - \hat{\beta}_1x_1}{\hat{\beta}_2} = \frac{-\hat{\beta}_0}{\hat{\beta}_2} - \frac{\hat{\beta}_1}{\hat{\beta}_2}x_1
+$$
+
+This equation derives the **y-intercept** $\frac{-\hat{\beta}_0}{\hat{\beta}_2}$, and the **slope** $-\frac{\hat{\beta}_1}{\hat{\beta}_2}$ of our logistic model.
+
+
+
+```{r logi_reg_plot}
+# Predict cond. prob. on newdata using earlier log fit
+p_hat =  predict(fit, newdata = mnist_27$true_p)
+p_hat = scales::squish(p_hat) # This constrains our estimates to be between 0 & 1
+
+mnist_27$true_p %>% 
+  mutate(p_hat = p_hat) %>% 
+  ggplot(aes(x_1, x_2, z = p_hat, fill = p_hat)) +
+  geom_raster() +
+  scale_fill_gradientn(colors = c("#F8766D","white","#00BFC4")) +
+  stat_contour(breaks = c(0.5), color = "black") +
+  ggtitle("Expected Conditional Probability Plot") 
+
+```
+
+
+By comparing the above plots, a clear issue arises: Due to its **linearity**, our logistic regression approach has *no chance* of predicting the **non-linear** nature of our true conditional probability.
+
+Plotting our logistic regression against the earlier test data further reveals the above issue:
+
+```{r logi_reg_test}
+p_hat = predict(fit, mnist_27$true_p)
+mnist_27$true_p %>% 
+  mutate(p_hat = p_hat) %>% 
+  ggplot() +
+  stat_contour(aes(x_1, x_2, z = p_hat), breaks = c(0.5), color = "black") +
+  geom_point(mapping = aes(x_1, x_2, color = y), data = mnist_27$test)
+```
+
+
+The bisecting line in the above plot miss-classifies several points due to the inflexibility of logistic regression in this case study.
+
+
+Better, more flexible, alternatives to logistic regression include **Nearest Neighbor algorithms** and **Kernel approaches**.
+
+
+
+
+
+
+
+
+
+
+
 
 
