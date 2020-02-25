@@ -29,4 +29,23 @@ library(dslabs)
 library(ggrepel)
 ```
 
+\
+
+Smoothing is an extremely powerful tool that is used accross data analysis fields. Also known as "Curve Fitting" and "Low Band Pass Filtering", **Smoothing** is designed to **detect trends** in the presence of **noisy data** (where the shape of the trend is unknown). The term "Smoothing" is used to indicate that **we assume the trend of noisy data to be smooth**. 
+
+Smoothing techniques are quite useful when applied in a machine learning context. In machine learning, like in Smoothing, our goal is to **extract conditional expectations/probabilities** (the underlying trends) of an unknown shape, in the presence of **uncertainty** (noisy data).
+
+
+### Introduction to our Example Problem: Popularity Over Time
+
+
+
+
+
+
+
+
+
+
+
 
