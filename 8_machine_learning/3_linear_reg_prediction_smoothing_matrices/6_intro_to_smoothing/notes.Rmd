@@ -14,7 +14,7 @@ output:
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-    <!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
     <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
@@ -22,6 +22,7 @@ output:
 <!-- FOR UPDATES -->    
 
 \
+
 ```{r dependencies, include=FALSE, results='hide'}
 library(tidyverse)
 library(caret)
@@ -38,14 +39,42 @@ Smoothing techniques are quite useful when applied in a machine learning context
 
 ### Introduction to our Example Problem: Popularity Over Time
 
+We will be trying to estimate the **time trend of the popularity vote** in the 2008 Presidential election between Obama and McCain.
+
+```{r load_data_and_plot, echo=TRUE}
+data("polls_2008")
+qplot(day, margin, data = polls_2008)
+```
 
 
 
+Note: **Do not think of this example as a forecasting problem**. All we are interested in is **learning the shape of the trend _after_ collecting all the data**.
+
+\
+
+We assume that **for every day $x$,** we have a **true preference among the electorate, $f(x)$**. However, due to the uncertainty of polling, each data point comes with an **error $\epsilon$.**  
+
+The following is the mathematical model for the observed poll margin $Y$:
+
+$$
+Y_i = f(x_i) + \epsilon_i
+$$
+
+We can redefine this problem in a machine learning context: We want to **predict $Y$ given day $x$, through the conditional expectation of**:
+$$
+f(x) = \mathrm{E}(Y\ |\ X = x)
+$$
+Since we *don't know* the true value of the above, we must **estimate it**. 
+
+We will first use regression for our estimates. 
+
+```{r reg_attempt, echo=FALSE}
+fit = lm(polls_2008$margin ~ polls_2008$day)
+qplot(day, margin, data = polls_2008, color=ifelse(fit$residuals > fit$coefficients[2], "+", "-")) +
+geom_abline(aes(intercept=fit$coefficients[1],slope=fit$coefficients[2])) + theme(legend.title=element_blank())
+
+```
 
 
-
-
-
-
-
+As we can see in our above plot, our regression line does not do a great job of describing our trend. We will need a more flexible algorithm.
 
