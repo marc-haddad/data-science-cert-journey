@@ -1,0 +1,34 @@
+---
+title: "Bin Smoothing and Kernels"
+subtitle: "Machine Learning - Section $3.2.2$"
+author: "_Marc Omar Haddad_"
+date: "Published: 9 March, 2020 <br>"
+output:
+  html_notebook:
+    theme: readable
+    highlight: zenburn
+  # pdf_document:
+  #   latex_engine: xelatex
+  #   df_print: kable
+---
+<!-- FOR UPDATES -->
+  
+  <!-- Uncomment if output = html_notebook: -->
+     <!-- <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+  
+  <!-- Uncomment if output = pdf_document: -->
+    <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
+
+<!-- FOR UPDATES -->    
+
+\
+
+```{r dependencies, include=FALSE, results='hide'}
+library(tidyverse)
+library(caret)
+library(dslabs)
+library(ggrepel)
+```
+
+\
+
