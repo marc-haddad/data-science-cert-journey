@@ -32,3 +32,4 @@ library(ggrepel)
 
 \
 
+General idea of **Bin Smoothing**: Group data points into strata in which the value of $f(x)$ can be *assumed to be constant*. The logic behind bin smoothing is that $f(x)$ changes (relatively) slowly and is thus pretty much constant within small windows of time.
