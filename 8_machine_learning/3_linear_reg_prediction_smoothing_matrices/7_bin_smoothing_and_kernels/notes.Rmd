@@ -14,7 +14,7 @@ output:
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-     <!-- <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center>
   
   <!-- Uncomment if output = pdf_document: -->
     <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
@@ -32,4 +32,49 @@ library(ggrepel)
 
 \
 
-General idea of **Bin Smoothing**: Group data points into strata in which the value of $f(x)$ can be *assumed to be constant*. The logic behind bin smoothing is that $f(x)$ changes (relatively) slowly and is thus pretty much constant within small windows of time.
+#### The General Idea of Bin Smoothing
+
+**Bin Smoothing** essentially groups data points into strata in which the value of $f(x)$ can be *assumed to be constant*. The logic behind bin smoothing is that $f(x)$ changes (relatively) slowly and is thus pretty much constant within small windows of time.
+
+For our example of the 2008 poll data (see previous notes) we can apply the assumption that **public opinion will remain approximately the same within any given week**. The result of this assumption is multiple data points with the *same expected value*.
+
+\
+
+#### Setting Up Our Assumptions
+
+Let $x_0$ be equal to to the precise midpoint of any given week.
+
+$$
+x_0 = \mathrm{Midpoint\ of\ week}
+$$
+
+For any other day $x$ satisfying the following condition:
+$$
+\left\lvert x-x_0 \right\rvert \le 3.5
+$$
+
+We assume **public opinion $f(x)$ to be constant**, and we will call this constant $\mu$.
+
+So, our assumption implies that the **expected value** of $Y$ given $X$ is **approximately equal to $\mu$**, given that $\left\lvert x-x_0 \right\rvert \le 3.5$.
+
+$$
+E[Y_i\ |\ X_i = x_i] ≈ \mu \\
+\mathrm{\mathbf{if\ }} \left\lvert x-x_0 \right\rvert \le 3.5
+$$
+
+
+In smoothing, the size of the interval satisfying a certain condition (in our case $\left\lvert x-x_0 \right\rvert \le 3.5$) is known as the **window size** or the **bandwidth** or the **span**.
+
+Our assumptions imply that the best estimate for $f(x)$ is the average of all the $Y$ values within our window.
+
+
+
+
+
+
+
+
+
+
+
+
