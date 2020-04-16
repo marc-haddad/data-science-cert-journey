@@ -63,18 +63,88 @@ $$
 
 We assume $Y$ given $X$ to be a line within that window (as evidenced by the linear equation).
 
-### Plots
+## Plots
 
-Using our 2 example starting days of $-125$ and $-55$, we can show the estimated linear trend for their respective $3$ week windows.
+\
+
+```{r first_loess}
+total_days = diff(range(polls_2008$day))
+span = 21/total_days
+
+fit = loess(margin ~ day, degree = 1, span = span, data = polls_2008)
+
+polls_2008 %>% 
+  mutate(smooth = fit$fitted) %>% 
+  ggplot(aes(day, margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth), color = "red")
+```
 
 
+Different `span` would give us different estimates.
 
 
+```{r spans, echo=FALSE}
+total_days = diff(range(polls_2008$day))
+span = 21/total_days
+
+fit_1 = loess(margin ~ day, degree = 1, span = 0.1, data = polls_2008)
+fit_2 = loess(margin ~ day, degree = 1, span = 0.15, data = polls_2008)
+fit_3 = loess(margin ~ day, degree = 1, span = 0.25, data = polls_2008)
+fit_4 = loess(margin ~ day, degree = 1, span = 0.66, data = polls_2008)
+```
+
+```{r span_1, echo=FALSE}
+polls_2008 %>% 
+  mutate(smooth = fit_1$fitted) %>% 
+  ggplot(aes(day, margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth), color = "red") +
+  ggtitle("span = 0.1")
+```
 
 
+```{r span_2, echo=FALSE}
+polls_2008 %>% 
+  mutate(smooth = fit_2$fitted) %>% 
+  ggplot(aes(day, margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth), color = "red") +
+  ggtitle("span = 0.15")
+```
+
+```{r span_3, echo=FALSE}
+polls_2008 %>% 
+  mutate(smooth = fit_3$fitted) %>% 
+  ggplot(aes(day, margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth), color = "red") +
+  ggtitle("span = 0.25")
+```
+
+```{r span_4, echo=FALSE}
+polls_2008 %>% 
+  mutate(smooth = fit_4$fitted) %>% 
+  ggplot(aes(day, margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth), color = "red") +
+  ggtitle("span = 0.66")
+```
 
 
+## Three Differences Between Bin Smoothing and Loess
 
+\
+
+**The first difference**:  
+Rather than keeping the bin sizes the same (regardless of number of points within bin), **Loess keeps the number of points used in the local fit the same**. The width of this window is controlled by the `span` argument, which expects a proportion. For example: if $N$ is the number of total data points, and our `span` is equal to $0.5$, **the number of data points within _any_ given window will always be $0.5 \times N$ closest points to the fit**.
+
+**The second difference**:  
+When fitting a line locally, **Loess uses a weighted approach**. What this means is that instead of minimizing the Least Squares, **we must minimize a weighted version of Least Squares**. Represented mathematically like so:
+
+$$
+
+$$
 
 
 
