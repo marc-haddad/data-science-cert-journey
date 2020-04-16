@@ -63,7 +63,9 @@ $$
 
 We assume $Y$ given $X$ to be a line within that window (as evidenced by the linear equation).
 
+### Plots
 
+Using our 2 example starting days of $-125$ and $-55$, we can show the estimated linear trend for their respective $3$ week windows.
 
 
 

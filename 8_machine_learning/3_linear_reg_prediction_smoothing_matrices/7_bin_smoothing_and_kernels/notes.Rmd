@@ -98,7 +98,7 @@ avg = polls_2008 %>% filter(day >= -125 - 3.5 & day <= -125 + 3.5) %>%
 
 qplot(day, margin, data = polls_2008, alpha = ifelse(day <= -121.5 & day >= -128.5, 1, 0.3)) + theme(legend.position = "none") +
   geom_point(x = -125, aes(y = avg), color = "blue", shape = "-", size = 5) +
-  ggtitle("Midpoint = Day -125")
+  labs(title = expression(paste(x[0], " = -125")))
 
 ```
 
@@ -109,7 +109,7 @@ avg = polls_2008 %>% filter(day >= -55 - 3.5 & day <= -55 + 3.5) %>%
 
 qplot(day, margin, data = polls_2008, alpha = ifelse(day <= -55 + 3.5 & day >= -55 - 3.5, 1, 0.3)) + theme(legend.position = "none") +
   geom_point(x = -55, aes(y = avg), color = "blue", shape = "-", size = 5) +
-  ggtitle("Midpoint = Day -55")
+  labs(title = expression(paste(x[0], " = -55")))
 ```
 
 
