@@ -65,11 +65,7 @@ $$
 
 In smoothing, the size of the interval satisfying a certain condition (in our case $\left\lvert x-x_0 \right\rvert \le 3.5$) is known as the **window size** or the **bandwidth** or the **span**.
 
-Our assumptions imply that the best estimate for $f(x)$ is the average of all the $Y$ values within our window.
-
-
-
-
+Our assumptions imply that the best estimate for $f(x)$ is the average of all the $Y$ values within our window. Let's take $A_0$ to be the **set of indexes $i$** that satisfy our condition $\left\lvert x-x_0 \right\rvert \le 3.5$, and $N_0$ to be the number (count) of indexes within $A_0$. Our estimate can thus be given by the following formula:
 
 
 
