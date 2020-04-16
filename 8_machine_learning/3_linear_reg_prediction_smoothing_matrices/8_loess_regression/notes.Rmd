@@ -22,12 +22,39 @@ output:
 <!-- FOR UPDATES -->    
 
 \
+
 ```{r dependencies, include=FALSE, results='hide'}
 library(tidyverse)
 library(caret)
 library(dslabs)
 library(ggrepel)
+data("polls_2008")
 ```
+
+
+## Limitation of Bin Smoother Approach
+
+\
+
+A limitation of the earlier bin smoother approach (see previous notes) was that we were required to take very small windows for the approximately constant assumption to hold. This results in a small number of data points to average.
+
+Local Weighted Regression (AKA Loess) permits us to consider larger windows and, thus, achieve more accurate, smoother trendlines.
+
+\
+
+## Mathematics of Loess
+
+\
+
+
+
+
+
+
+
+
+
+
 
 
 

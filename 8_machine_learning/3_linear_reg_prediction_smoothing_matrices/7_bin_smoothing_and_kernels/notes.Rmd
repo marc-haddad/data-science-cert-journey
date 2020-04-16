@@ -33,7 +33,7 @@ data("polls_2008")
 
 \
 
-### The General Idea of Bin Smoothing
+## The General Idea of Bin Smoothing
 
 \
 
@@ -43,11 +43,11 @@ For our example of the 2008 poll data (see previous notes) we can apply the assu
 
 \
 
-### Bin Smoothing Calculations
+## Bin Smoothing Calculations
 
 \
 
-#### Setting Up Our Assumptions
+### Setting Up Our Assumptions
 
 Let $x_0$ be equal to to the precise midpoint of any given week.
 
@@ -118,7 +118,7 @@ The black points are the points used to compute the average of the week containi
 
 \
 
-### First Trendline
+## First Trendline
 
 \
 
@@ -142,11 +142,11 @@ We can mitigate this effect by **taking weighted averages that give the center p
 
 \
 
-### The Kernel
+## The Kernel
 
 \
 
-#### Mathematical Representation
+### Mathematical Representation
 
 Any time we use a bin smoother, we can consider it to be an approach that uses a kernel. Mathematically, the weighting within a kernel can be expressed like so:
 
@@ -158,7 +158,7 @@ Each point receives a weight ($w$) between $0$, for points that are outside of t
 
 \
 
-### Second Trendline
+## Second Trendline
 
 \
 
