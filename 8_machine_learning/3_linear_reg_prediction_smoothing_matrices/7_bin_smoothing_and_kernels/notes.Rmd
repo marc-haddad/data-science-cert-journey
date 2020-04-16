@@ -87,7 +87,7 @@ What this entails is making **each** value of $x$ the center of our window and r
 
 \
 
-#### Examples
+### Examples
 
 Let us set the midpoint of our **first example** at $-125$, and our **second example** at $-55$.
 
@@ -118,7 +118,7 @@ The black points are the points used to compute the average of the week containi
 
 \
 
-## First Trendline
+## First Trend Line
 
 \
 
@@ -158,7 +158,7 @@ Each point receives a weight ($w$) between $0$, for points that are outside of t
 
 \
 
-## Second Trendline
+## Second Trend Line
 
 \
 

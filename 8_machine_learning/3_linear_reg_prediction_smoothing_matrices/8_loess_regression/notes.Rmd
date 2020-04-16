@@ -46,7 +46,22 @@ Local Weighted Regression (AKA Loess) permits us to consider larger windows and,
 
 \
 
+### Taylor's Theorem
 
+If you look close enough at any smooth function $f(x)$, the relationship will appear **linear**. The previous bin smoother approach assumed that our function is approximately constant within a window, whereas now we shall assume the function is locally linear. This permits us to use larger window sizes without sacrificing accuracy.
+
+
+
+### Formula
+
+For our example we will start by using a **$3$ week window**. Mathematically, our line equation for **one** window is calculated as:
+
+$$
+E\left[Y_i\ \vert\ X_i=x_i\right] = \beta_0 + \beta_1(x_i - x_0) \\
+\mathrm{if}\ \lvert{x_i-x_0}\rvert ≤ 10.5
+$$
+
+We assume $Y$ given $X$ to be a line within that window (as evidenced by the linear equation).
 
 
 
