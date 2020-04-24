@@ -4,20 +4,20 @@ subtitle: "Machine Learning - Section $3.2.3$"
 author: "_Marc Omar Haddad_"
 date: "Published: 16 April, 2020 <br>"
 output:
-  html_notebook:
-    theme: readable
-    highlight: zenburn
-  # pdf_document:
-  #   latex_engine: xelatex
-  #   df_print: kable
+  # html_notebook:
+  #   theme: readable
+  #   highlight: zenburn
+  pdf_document:
+    latex_engine: xelatex
+    df_print: kable
 ---
 <!-- FOR UPDATES -->
   
   <!-- Uncomment if output = html_notebook: -->
-    <!--  <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
+     <!-- <center><strong>Updated: `r format(Sys.time(), '%d %B, %Y')`</strong></center> -->
   
   <!-- Uncomment if output = pdf_document: -->
-    <!-- \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center} -->
+    \begin{center}Updated: `r format(Sys.time(), '%d %B, %Y')`\end{center}
 
 <!-- FOR UPDATES -->    
 
@@ -25,9 +25,7 @@ output:
 
 ```{r dependencies, include=FALSE, results='hide'}
 library(tidyverse)
-library(caret)
 library(dslabs)
-library(ggrepel)
 data("polls_2008")
 ```
 
@@ -149,13 +147,10 @@ $$
 Instead of using the Gaussian (normal) kernel for weighting, **Loess uses the Tukey Tri-Weight function**, expressed like this:
 
 $$
-\begin{align}
-&W(u) = (1 - \vert{u}\vert^3)^3&\mathrm{\mathbf{if\ }} \vert{u}\vert \le1 \\
-&\mathrm{\mathbf{and}} \\
-&W(u) = 0&\mathrm{\mathbf{if\ }} \vert{u}\vert > 1
-\end{align}
+W(u) = (1 - \vert{u}\vert^3)^3\ \ \mathbf{if}\ \vert{u}\vert \le1 \\
+\mathbf{and} \\
+W(u) = 0\ \ \mathbf{if} \vert{u}\vert > 1
 $$
-
 And we use the following formula to actually define the weights:
 
 $$
@@ -170,14 +165,57 @@ Loess offers the option to **fit the local model robustly**. What this means:
 
 To use this robust option in `R`, we must set the `family` argument to `"symmetric"`.
 
+\
 
 ## Important Note on Default Loess Behavior
 
+\
 
+Taylor's Theorem also states that if you look closely at any smooth function $f(x)$, but not close enough to see a linear relationship, you will see a **parabolic relationship**. This allows for **bigger local windows** since you can capture more of the data without the function deviating from a parabolic shape. Thus, instead of a linear local model, the local model will look like this:
 
+$$
+E\left[Y_i\ \vert\ X_i=x_i\right] = \beta_0 + \beta_1(x_i-x_0) + \beta_2(x_i - x_0)^2 \\ \mathrm{\mathbf{if\ }} \vert{x_i - x_0}\vert \le h
+$$
 
+The above is actually the default procedure when using the `loess()` function. However, in our plotted curves earlier, we set the `degree` value equal to $1$. This overrides the default behavior of looking at parabolic local modes (i.e. `degree = 2`), and instead plots according to linear local modes (i.e. `degree = 1`). We do this because **a linear local method appears to give us a smoother curve**, as seen here:
 
+```{r lin_v_para}
+fit_linear = loess(margin ~ day, degree = 1, 
+                   span = 0.15, data = polls_2008)
+fit_parabola = loess(margin ~ day, span = 0.15, data = polls_2008)
+colors = c("Linear Fit" = "blue", "Parabolic Fit" = "red")
+polls_2008 %>% 
+  mutate(smooth_linear = fit_linear$fitted,
+         smooth_parabola = fit_parabola$fitted) %>% 
+  ggplot(aes(x = day, y = margin)) +
+  geom_point(alpha = 0.65, color = "grey") +
+  geom_line(aes(day, smooth_linear, color = "Linear Fit")) +
+  geom_line(aes(day, smooth_parabola, color = "Parabolic Fit"),
+            linetype = "dashed") +
+  labs(title = "Loess Linear Fit vs. Loess Parabolic Fit", 
+       color = "Legend") +
+  scale_color_manual(values = colors)
+```
 
+As you can see in our above plot, the linear fit appears smoother than the parabolic fit; thus, we choose to set `degree` equal to $1$.
+
+The `ggplot` function `geom_smooth()` uses Loess and simplifies the process of fitting a line.
+
+```{r simplified}
+polls_2008 %>% 
+  ggplot(aes(day, margin)) +
+  geom_point() +
+  geom_smooth()
+```
+
+However, the default behavior doesn't necessarily give us the optimal fit. We can tweak the fitting process by changing the `span` and `method.args` arguments:
+
+```{r tweaking}
+polls_2008 %>% 
+  ggplot(aes(day, margin)) +
+  geom_point() +
+  geom_smooth(span = 0.15, method = "loess", method.args = list(degree = 1))
+```
 
 
 
