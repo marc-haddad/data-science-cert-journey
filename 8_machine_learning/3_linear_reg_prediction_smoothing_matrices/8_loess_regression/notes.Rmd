@@ -38,7 +38,7 @@ data("polls_2008")
 
 A limitation of the earlier bin smoother approach (see previous notes) was that we were required to take very small windows for the approximately constant assumption to hold. This results in a small number of data points to average.
 
-Local Weighted Regression (AKA Loess) permits us to consider larger windows and, thus, achieve more accurate, smoother trendlines.
+Local Weighted Regression (AKA Loess) permits us to consider larger windows and, thus, achieve more accurate, smoother trend lines.
 
 \
 
@@ -136,15 +136,46 @@ polls_2008 %>%
 
 \
 
-**The first difference**:  
+**The First Difference:**  
 Rather than keeping the bin sizes the same (regardless of number of points within bin), **Loess keeps the number of points used in the local fit the same**. The width of this window is controlled by the `span` argument, which expects a proportion. For example: if $N$ is the number of total data points, and our `span` is equal to $0.5$, **the number of data points within _any_ given window will always be $0.5 \times N$ closest points to the fit**.
 
-**The second difference**:  
+**The Second Difference:**  
 When fitting a line locally, **Loess uses a weighted approach**. What this means is that instead of minimizing the Least Squares, **we must minimize a weighted version of Least Squares**. Represented mathematically like so:
 
 $$
+\sum_{i=1}^{N}w_0(x_i)\bigl[Y_i - \left\{\beta_0 + \beta_1(x_i - x_0)\right\}\bigr]^2
+$$
+
+Instead of using the Gaussian (normal) kernel for weighting, **Loess uses the Tukey Tri-Weight function**, expressed like this:
 
 $$
+\begin{align}
+&W(u) = (1 - \vert{u}\vert^3)^3&\mathrm{\mathbf{if\ }} \vert{u}\vert \le1 \\
+&\mathrm{\mathbf{and}} \\
+&W(u) = 0&\mathrm{\mathbf{if\ }} \vert{u}\vert > 1
+\end{align}
+$$
+
+And we use the following formula to actually define the weights:
+
+$$
+w_0(x_i)=W\Bigl(\frac{x_i - x_0}{h}\Bigr)
+$$
+
+**The Third Difference:**  
+Loess offers the option to **fit the local model robustly**. What this means:
+
+> "An iterative algorithm is implemented in which, after fitting a model in one iteration, **outliers** are detected and **down-weighted** for the next iteration."
+- Dr. Rafael Irizarry
+
+To use this robust option in `R`, we must set the `family` argument to `"symmetric"`.
+
+
+## Important Note on Default Loess Behavior
+
+
+
+
 
 
 
